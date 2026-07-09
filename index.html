@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#5b21b6">
+<title>🚀 Startup Battle</title>
+<style>
+:root{
+  --bg1:#0f0c29; --bg2:#302b63; --bg3:#24243e;
+  --card:#1e1b3a; --card2:#272350;
+  --accent:#7c3aed; --accent2:#a855f7;
+  --green:#22c55e; --greenD:#16a34a;
+  --red:#ef4444; --amber:#f59e0b; --blue:#3b82f6;
+  --cyan:#06b6d4;
+  --txt:#f5f3ff; --muted:#b9b4d6;
+  --shadow:0 10px 30px rgba(0,0,0,.45);
+  --radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;}
+html,body{height:100%;}
+body{
+  background:linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg3));
+  color:var(--txt);
+  overflow-x:hidden;
+  -webkit-user-select:none;user-select:none;
+}
+#app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:88px;}
+.view{display:none;animation:fade .35s ease;}
+.view.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+@keyframes pop{0%{transform:scale(.7);opacity:0;}60%{transform:scale(1.08);}100%{transform:scale(1);opacity:1;}}
+@keyframes floatUp{0%{transform:translateY(0);opacity:1;}100%{transform:translateY(-70px);opacity:0;}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(124,58,237,0);}50%{box-shadow:0 0 24px rgba(168,85,247,.6);}}
+@keyframes grow{from{transform:scaleY(.2);}to{transform:scaleY(1);}}
+
+/* ---------- Header ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(20,16,45,.85);backdrop-filter:blur(12px);
+  padding:14px 18px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.topbar h1{font-size:19px;font-weight:800;letter-spacing:.3px;display:flex;align-items:center;gap:8px;}
+.badge-month{background:linear-gradient(135deg,var(--accent),var(--accent2));padding:6px 12px;border-radius:14px;font-size:13px;font-weight:700;}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:block;width:100%;border:none;cursor:pointer;
+  padding:18px;border-radius:18px;font-size:17px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:var(--shadow);transition:transform .12s ease,filter .12s ease;
+  letter-spacing:.3px;
+}
+.btn:active{transform:scale(.96);filter:brightness(1.1);}
+.btn.green{background:linear-gradient(135deg,var(--green),var(--greenD));}
+.btn.blue{background:linear-gradient(135deg,var(--blue),#2563eb);}
+.btn.amber{background:linear-gradient(135deg,var(--amber),#d97706);}
+.btn.ghost{background:rgba(255,255,255,.08);box-shadow:none;border:1px solid rgba(255,255,255,.12);}
+.btn.red{background:linear-gradient(135deg,var(--red),#dc2626);}
+.btn.sm{padding:12px;font-size:14px;border-radius:14px;}
+.btn:disabled{filter:grayscale(.7) brightness(.6);cursor:not-allowed;}
+
+/* ---------- Start ---------- */
+#start{display:none;text-align:center;padding:40px 24px;}
+#start.active{display:flex;flex-direction:column;justify-content:center;min-height:100vh;}
+.logo{font-size:80px;animation:pop .6s ease, glow 3s ease-in-out infinite;margin-bottom:10px;}
+#start h2{font-size:38px;font-weight:900;background:linear-gradient(135deg,#a855f7,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px;}
+#start .sub{color:var(--muted);font-size:16px;margin-bottom:34px;line-height:1.5;}
+.start-actions{display:flex;flex-direction:column;gap:14px;}
+.tagline{margin-top:26px;font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* ---------- Content ---------- */
+.wrap{padding:16px 16px 30px;}
+.section-title{font-size:15px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:22px 4px 12px;}
+
+/* ---------- Stat cards ---------- */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.stat{
+  background:linear-gradient(160deg,var(--card),var(--card2));
+  border-radius:18px;padding:14px;position:relative;overflow:hidden;
+  border:1px solid rgba(255,255,255,.05);
+}
+.stat .lbl{font-size:12px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:5px;}
+.stat .val{font-size:22px;font-weight:900;margin-top:4px;}
+.stat.big{grid-column:span 2;background:linear-gradient(135deg,#312e81,#5b21b6);}
+.stat.big .val{font-size:30px;}
+.pos{color:#4ade80;}.neg{color:#f87171;}
+
+/* progress bars */
+.bar-wrap{margin-top:8px;height:9px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;}
+.bar{height:100%;border-radius:6px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.bar.rep{background:linear-gradient(90deg,#22c55e,#4ade80);}
+.bar.risk{background:linear-gradient(90deg,#f59e0b,#ef4444);}
+.bar.lvl{background:linear-gradient(90deg,#06b6d4,#a855f7);}
+
+/* company visual */
+.company-vis{
+  background:linear-gradient(160deg,#1e293b,#0f172a);
+  border-radius:20px;padding:20px;text-align:center;margin-bottom:6px;
+  border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;
+}
+.company-emoji{font-size:64px;transition:transform .4s;display:inline-block;}
+.company-name{font-size:16px;font-weight:800;margin-top:6px;}
+.company-tier{font-size:13px;color:var(--muted);margin-top:2px;}
+.skyline{font-size:26px;letter-spacing:2px;margin-top:8px;min-height:32px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));}
+
+/* ---------- Shop ---------- */
+.inv-card{
+  background:linear-gradient(160deg,var(--card),var(--card2));
+  border-radius:18px;padding:15px;margin-bottom:12px;
+  border:1px solid rgba(255,255,255,.06);position:relative;
+}
+.inv-head{display:flex;align-items:flex-start;gap:12px;}
+.inv-ico{font-size:34px;line-height:1;}
+.inv-title{font-size:16px;font-weight:800;flex:1;}
+.inv-owned{background:var(--accent);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;}
+.inv-effects{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
+.chip{font-size:12px;padding:4px 9px;border-radius:10px;font-weight:700;background:rgba(255,255,255,.07);}
+.chip.up{color:#4ade80;}.chip.down{color:#f87171;}.chip.rep{color:#38bdf8;}.chip.risk{color:#fbbf24;}
+.inv-learn{font-size:12.5px;color:var(--muted);line-height:1.45;margin:6px 0 12px;border-left:3px solid var(--accent);padding-left:9px;font-style:italic;}
+.inv-buy{display:flex;align-items:center;gap:10px;}
+.inv-price{font-size:17px;font-weight:900;color:#fde047;flex:1;}
+
+/* ---------- Report ---------- */
+.report-line{display:flex;justify-content:space-between;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.07);font-size:15px;}
+.report-line .k{color:var(--muted);}
+.report-line .v{font-weight:800;}
+.event-box{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);border-radius:14px;padding:14px;margin:16px 0;font-size:14px;line-height:1.5;}
+.event-box.good{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);}
+
+/* ---------- Battle ---------- */
+.vs-row{display:flex;align-items:center;justify-content:space-around;margin:16px 0;}
+.fighter{text-align:center;flex:1;}
+.fighter .f-emoji{font-size:52px;}
+.fighter .f-name{font-weight:800;margin-top:4px;font-size:14px;}
+.fighter .f-score{font-size:26px;font-weight:900;margin-top:2px;}
+.vs-mid{font-size:30px;font-weight:900;color:var(--accent2);}
+.strat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.strat-btn{
+  background:linear-gradient(160deg,var(--card),var(--card2));
+  border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px 10px;
+  text-align:center;cursor:pointer;transition:transform .1s;font-weight:700;font-size:13.5px;color:#fff;
+}
+.strat-btn:active{transform:scale(.95);}
+.strat-btn .s-ico{font-size:28px;display:block;margin-bottom:4px;}
+.battle-log{background:rgba(0,0,0,.25);border-radius:14px;padding:12px;margin-top:14px;font-size:13.5px;line-height:1.6;max-height:220px;overflow-y:auto;}
+.battle-log .lr{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.round-dots{display:flex;justify-content:center;gap:8px;margin:8px 0;}
+.dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.15);}
+.dot.won{background:var(--green);}.dot.lost{background:var(--red);}.dot.tie{background:var(--amber);}
+
+/* ---------- Learn ---------- */
+.learn-card{background:linear-gradient(160deg,var(--card),var(--card2));border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid rgba(255,255,255,.06);}
+.learn-card h3{font-size:15px;margin-bottom:6px;display:flex;gap:8px;align-items:center;}
+.learn-card p{font-size:13.5px;color:var(--muted);line-height:1.5;}
+
+/* ---------- Bottom nav ---------- */
+.nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:60;
+  background:rgba(18,14,40,.92);backdrop-filter:blur(14px);
+  display:flex;justify-content:space-around;padding:8px 6px 12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.nav.hidden{display:none;}
+.nav button{background:none;border:none;color:var(--muted);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 4px;border-radius:12px;transition:color .2s;flex:1;}
+.nav button .ico{font-size:22px;}
+.nav button.on{color:var(--accent2);}
+
+/* ---------- Toast / Overlay ---------- */
+#toast-layer{position:fixed;top:70px;left:0;right:0;z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;}
+.toast{background:rgba(30,27,58,.97);border:1px solid var(--accent);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:var(--shadow);animation:pop .3s ease;max-width:90%;text-align:center;}
+.toast.good{border-color:var(--green);}.toast.bad{border-color:var(--red);}
+
+.float-money{position:fixed;font-weight:900;font-size:22px;z-index:150;pointer-events:none;animation:floatUp 1s ease forwards;}
+
+#overlay{position:fixed;inset:0;z-index:300;background:rgba(10,8,25,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:24px;}
+#overlay.show{display:flex;animation:fade .3s;}
+.modal{background:linear-gradient(160deg,var(--card),var(--card2));border-radius:24px;padding:28px 22px;max-width:400px;width:100%;text-align:center;border:1px solid rgba(255,255,255,.1);box-shadow:var(--shadow);animation:pop .4s ease;}
+.modal .big-emoji{font-size:66px;margin-bottom:8px;}
+.modal h2{font-size:26px;font-weight:900;margin-bottom:8px;}
+.modal p{color:var(--muted);font-size:15px;line-height:1.55;margin-bottom:18px;}
+.modal .rank-line{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;margin-bottom:16px;font-size:14px;}
+.shake{animation:shake .4s;}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== START SCREEN ===== -->
+  <section id="start" class="view active">
+    <div class="logo">🚀</div>
+    <h2>Startup Battle</h2>
+    <p class="sub">Baue in 24 Monaten dein Unternehmen auf.<br>Investiere klug. Wachse. Gewinne.</p>
+    <div class="start-actions">
+      <button class="btn green" onclick="continueGame()" id="continueBtn" style="display:none">▶️ Weiterspielen</button>
+      <button class="btn" onclick="newGame()">✨ Neues Spiel starten</button>
+      <button class="btn ghost" onclick="showView('learn'); showNav(true);">📚 So funktioniert's</button>
+    </div>
+    <p class="tagline">💡 Ein Firmen-Simulator, der zeigt, wie Umsatz, Kosten,<br>Gewinn, Reputation und Risiko zusammenhängen.</p>
+  </section>
+
+  <!-- ===== DASHBOARD ===== -->
+  <section id="dashboard" class="view">
+    <div class="topbar">
+      <h1>🚀 <span id="db-firma">Meine Firma</span></h1>
+      <span class="badge-month" id="db-month">Monat 1/24</span>
+    </div>
+    <div class="wrap">
+      <div class="company-vis">
+        <div class="company-emoji" id="db-emoji">🏠</div>
+        <div class="company-name" id="db-name">Garagen-Startup</div>
+        <div class="company-tier" id="db-tier">Level 1 · Gerade gegründet</div>
+        <div class="skyline" id="db-skyline">🏢</div>
+      </div>
+
+      <div class="stats-grid" style="margin-top:14px;">
+        <div class="stat big">
+          <div class="lbl">💰 Kapital</div>
+          <div class="val" id="s-kapital">5.000 €</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">📈 Umsatz/Monat</div>
+          <div class="val pos" id="s-umsatz">0 €</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">📉 Kosten/Monat</div>
+          <div class="val neg" id="s-kosten">0 €</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">💵 Gewinn/Monat</div>
+          <div class="val" id="s-gewinn">0 €</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">👥 Kunden</div>
+          <div class="val" id="s-kunden">50</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">⭐ Reputation</div>
+          <div class="val" id="s-rep">30</div>
+          <div class="bar-wrap"><div class="bar rep" id="bar-rep" style="width:30%"></div></div>
+        </div>
+        <div class="stat">
+          <div class="lbl">⚠️ Risiko</div>
+          <div class="val" id="s-risk">15</div>
+          <div class="bar-wrap"><div class="bar risk" id="bar-risk" style="width:15%"></div></div>
+        </div>
+      </div>
+
+      <div class="section-title">Nächster Schritt</div>
+      <button class="btn green" onclick="goToShop()">🛒 Investieren im Shop</button>
+      <div style="height:12px"></div>
+      <button class="btn amber" onclick="nextMonth()">⏭️ Monat abschließen</button>
+      <div style="height:12px"></div>
+      <button class="btn blue" onclick="openBattle()">⚔️ Battle gegen KI-Firma</button>
+    </div>
+  </section>
+
+  <!-- ===== SHOP ===== -->
+  <section id="shop" class="view">
+    <div class="topbar">
+      <h1>🛒 Investment-Shop</h1>
+      <span class="badge-month" id="shop-kapital">5.000 €</span>
+    </div>
+    <div class="wrap">
+      <p style="color:var(--muted);font-size:13.5px;margin-bottom:10px;line-height:1.5;">
+        Jede Investition verändert deine Firmenwerte dauerhaft. Wähle mit Bedacht – dein Kapital ist begrenzt!
+      </p>
+      <div id="shop-list"></div>
+    </div>
+  </section>
+
+  <!-- ===== REPORT ===== -->
+  <section id="report" class="view">
+    <div class="topbar">
+      <h1>📊 Monatsbericht</h1>
+      <span class="badge-month" id="report-month">Monat 1</span>
+    </div>
+    <div class="wrap" id="report-body"></div>
+  </section>
+
+  <!-- ===== BATTLE ===== -->
+  <section id="battle" class="view">
+    <div class="topbar">
+      <h1>⚔️ Startup Battle</h1>
+      <span class="badge-month" id="battle-round">Runde 1/5</span>
+    </div>
+    <div class="wrap">
+      <div class="vs-row">
+        <div class="fighter">
+          <div class="f-emoji">🏢</div>
+          <div class="f-name" id="bt-me-name">Deine Firma</div>
+          <div class="f-score pos" id="bt-me-score">0</div>
+        </div>
+        <div class="vs-mid">VS</div>
+        <div class="fighter">
+          <div class="f-emoji" id="bt-ai-emoji">🤖</div>
+          <div class="f-name" id="bt-ai-name">RivalCorp</div>
+          <div class="f-score neg" id="bt-ai-score">0</div>
+        </div>
+      </div>
+      <div class="round-dots" id="bt-dots"></div>
+      <div class="section-title" id="bt-prompt">Wähle deine Strategie:</div>
+      <div class="strat-grid" id="bt-strats"></div>
+      <div class="battle-log" id="bt-log"></div>
+      <div style="height:14px"></div>
+      <button class="btn ghost" onclick="exitBattle()">🏠 Zurück zum Dashboard</button>
+    </div>
+  </section>
+
+  <!-- ===== LEARN ===== -->
+  <section id="learn" class="view">
+    <div class="topbar">
+      <h1>📚 Lernhinweise</h1>
+    </div>
+    <div class="wrap" id="learn-body">
+      <div class="learn-card"><h3>💰 Kapital</h3><p>Dein Geld auf dem Konto. Wird jeden Monat um den Gewinn erhöht – oder um den Verlust verringert. Geht es auf 0, ist die Firma pleite.</p></div>
+      <div class="learn-card"><h3>📈 Umsatz</h3><p>Alle Einnahmen eines Monats. Mehr Kunden und bessere Produkte = mehr Umsatz. Umsatz ist aber noch kein Gewinn!</p></div>
+      <div class="learn-card"><h3>📉 Kosten</h3><p>Was du monatlich ausgibst: Gehälter, Miete, Werbung. Kosten dürfen nicht höher als der Umsatz sein.</p></div>
+      <div class="learn-card"><h3>💵 Gewinn</h3><p>Umsatz minus Kosten. Nur der Gewinn macht dich wirklich reicher. Das Ziel jedes Unternehmens.</p></div>
+      <div class="learn-card"><h3>⭐ Reputation</h3><p>Wie sehr Kunden dir vertrauen. Hohe Reputation bringt neue Kunden und mehr Umsatz – ganz von allein.</p></div>
+      <div class="learn-card"><h3>⚠️ Risiko</h3><p>Die Gefahr für teure Zwischenfälle. Hohes Risiko = höhere Chance auf plötzliche Verluste. Halte es niedrig!</p></div>
+      <div class="learn-card"><h3>👥 Kunden</h3><p>Deine Käufer. Mehr Kunden bedeuten mehr Umsatz. Sie wachsen durch gute Reputation und Werbung.</p></div>
+      <div class="learn-card"><h3>🎯 Strategie-Tipp</h3><p>Wachse nicht zu schnell auf Kredit. Achte immer auf das Gleichgewicht zwischen Wachstum und Risiko.</p></div>
+      <button class="btn ghost" onclick="backFromLearn()">⬅️ Zurück</button>
+    </div>
+  </section>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <div class="nav hidden" id="nav">
+    <button data-v="dashboard" class="on" onclick="navTo('dashboard')"><span class="ico">🏠</span>Firma</button>
+    <button data-v="shop" onclick="navTo('shop')"><span class="ico">🛒</span>Shop</button>
+    <button data-v="battle" onclick="navTo('battle',openBattle)"><span class="ico">⚔️</span>Battle</button>
+    <button data-v="learn" onclick="navTo('learn')"><span class="ico">📚</span>Lernen</button>
+    <button data-v="reset" onclick="confirmReset()"><span class="ico">🔄</span>Neu</button>
+  </div>
+</div>
+
+<div id="toast-layer"></div>
+<div id="overlay"><div class="modal" id="modal"></div></div>
+
+<script>
+/* ============================================================
+   STARTUP BATTLE – Game Logic
+============================================================ */
+const SAVE_KEY = 'startupBattle_v1';
+const MAX_MONTHS = 24;
+
+/* ---------- Investments ---------- */
+const INVESTMENTS = [
+  {id:'social', ico:'📱', name:'Social-Media-Werbung', price:800, umsatz:350, kosten:120, rep:8, risk:4,
+    learn:'Werbung bringt schnell neue Kunden – kostet aber jeden Monat Geld.'},
+  {id:'web', ico:'🌐', name:'Bessere Webseite', price:1200, umsatz:400, kosten:60, rep:12, risk:-2,
+    learn:'Ein guter Auftritt schafft Vertrauen und verkauft rund um die Uhr.'},
+  {id:'produkt', ico:'🎁', name:'Produkt verbessern', price:1800, umsatz:600, kosten:150, rep:18, risk:-5,
+    learn:'Ein besseres Produkt macht Kunden glücklich und senkt Beschwerden.'},
+  {id:'vertrieb', ico:'🤝', name:'Vertrieb einstellen', price:2500, umsatz:900, kosten:400, rep:5, risk:6,
+    learn:'Verkäufer bringen viel Umsatz, verursachen aber hohe Fixkosten.'},
+  {id:'service', ico:'🎧', name:'Kundenservice verbessern', price:1400, umsatz:250, kosten:200, rep:20, risk:-8,
+    learn:'Guter Service hält Kunden und schützt vor schlechten Bewertungen.'},
+  {id:'ki', ico:'🤖', name:'KI-Automatisierung', price:3000, umsatz:500, kosten:-250, rep:6, risk:5,
+    learn:'Automatisierung senkt langfristig die Kosten – die Einführung ist teuer.'},
+  {id:'buero', ico:'🏢', name:'Neues Büro', price:3500, umsatz:300, kosten:300, rep:15, risk:8,
+    learn:'Ein Büro wirkt professionell, bindet aber viel Geld in Miete.'},
+  {id:'training', ico:'🎓', name:'Mitarbeitertraining', price:1600, umsatz:450, kosten:80, rep:10, risk:-6,
+    learn:'Gut geschulte Mitarbeiter arbeiten besser und machen weniger Fehler.'},
+  {id:'markt', ico:'🔍', name:'Marktforschung', price:1000, umsatz:200, kosten:40, rep:7, risk:-10,
+    learn:'Wer den Markt kennt, trifft bessere Entscheidungen und senkt sein Risiko.'},
+  {id:'kredit', ico:'🏦', name:'Kredit aufnehmen', price:0, umsatz:0, kosten:250, rep:-5, risk:15, capital:4000,
+    learn:'Ein Kredit bringt sofort Kapital – kostet aber Zinsen und erhöht das Risiko.'},
+  {id:'brand', ico:'✨', name:'Premium-Branding', price:2200, umsatz:550, kosten:100, rep:25, risk:-3,
+    learn:'Eine starke Marke erlaubt höhere Preise und zieht treue Kunden an.'},
+  {id:'buchhaltung', ico:'📚', name:'Buchhaltungssystem', price:900, umsatz:100, kosten:-120, rep:4, risk:-12,
+    learn:'Ordnung in den Zahlen spart Kosten und verhindert teure Fehler.'},
+];
+
+/* ---------- Battle strategies ---------- */
+const STRATS = [
+  {id:'mkt', ico:'📣', name:'Marketing-Offensive', share:9, profit:4, rep:5, risk:5},
+  {id:'qual', ico:'💎', name:'Produktqualität', share:6, profit:5, rep:9, risk:-3},
+  {id:'preis', ico:'🏷️', name:'Preis senken', share:11, profit:-4, rep:2, risk:6},
+  {id:'auto', ico:'⚙️', name:'Automatisierung', share:4, profit:9, rep:2, risk:2},
+  {id:'serv', ico:'🎧', name:'Kundenservice', share:5, profit:3, rep:10, risk:-4},
+  {id:'grow', ico:'🚀', name:'Risiko-Wachstum', share:13, profit:7, rep:-2, risk:13},
+];
+const AI_NAMES=[['RivalCorp','🤖'],['MegaSoft','👾'],['NovaTech','🛸'],['ByteBros','💾'],['CloudNine','☁️'],['TurboInc','⚡']];
+
+/* ---------- Company tiers ---------- */
+const TIERS=[
+  {min:0,     emoji:'🏠', name:'Garagen-Startup', desc:'Gerade gegründet', sky:'🏢'},
+  {min:8000,  emoji:'🏪', name:'Kleines Ladengeschäft', desc:'Erste Erfolge', sky:'🏢🏬'},
+  {min:20000, emoji:'🏢', name:'Wachsendes Unternehmen', desc:'Auf gutem Weg', sky:'🏢🏬🏢'},
+  {min:45000, emoji:'🏬', name:'Etablierte Firma', desc:'Fest im Markt', sky:'🏢🏬🏢🏦'},
+  {min:80000, emoji:'🏙️', name:'Marktführer', desc:'Die Konkurrenz staunt', sky:'🏙️🏢🏬🏢🏦'},
+  {min:150000,emoji:'🦄', name:'Unicorn', desc:'Legendäres Startup!', sky:'🌆🏙️🏢🏬🏦'},
+];
+
+/* ---------- Game state ---------- */
+let game = null;
+
+function defaultGame(){
+  return {
+    firma:'Meine Firma',
+    kapital:5000,
+    umsatz:1200,
+    kosten:800,
+    baseUmsatz:1200,
+    baseKosten:800,
+    rep:30,
+    risk:15,
+    kunden:50,
+    level:1,
+    monat:1,
+    owned:{},
+    over:false,
+    battleWins:0,
+  };
+}
+
+/* ============================================================
+   Persistence
+============================================================ */
+function save(){ if(game) localStorage.setItem(SAVE_KEY, JSON.stringify(game)); }
+function load(){ try{ return JSON.parse(localStorage.getItem(SAVE_KEY)); }catch(e){ return null; } }
+
+/* ============================================================
+   View management
+============================================================ */
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on', b.dataset.v===id));
+}
+function showNav(on){ document.getElementById('nav').classList.toggle('hidden', !on); }
+function navTo(id, fn){ if(fn){ fn(); } else { showView(id); if(id==='shop') renderShop(); if(id==='dashboard') renderDashboard(); } }
+
+let lastView='dashboard';
+function backFromLearn(){ showView(game?lastView:'start'); if(!game) showNav(false); }
+
+/* ============================================================
+   Game flow
+============================================================ */
+function newGame(){
+  game = defaultGame();
+  save();
+  showView('dashboard'); showNav(true);
+  renderDashboard();
+  toast('🚀 Viel Erfolg mit deiner neuen Firma!','good');
+}
+function continueGame(){
+  if(!game) game=load();
+  if(!game){ newGame(); return; }
+  showView('dashboard'); showNav(true);
+  renderDashboard();
+}
+function confirmReset(){
+  modal(`<div class="big-emoji">🔄</div><h2>Neu starten?</h2>
+    <p>Dein aktueller Fortschritt geht verloren und du beginnst wieder mit 5.000 € Kapital.</p>
+    <button class="btn red" onclick="doReset()">Ja, neu starten</button>
+    <div style="height:10px"></div>
+    <button class="btn ghost" onclick="closeModal()">Abbrechen</button>`);
+}
+function doReset(){ localStorage.removeItem(SAVE_KEY); game=null; closeModal(); showView('start'); showNav(false); checkContinue(); }
+
+function goToShop(){ showView('shop'); renderShop(); }
+
+/* ============================================================
+   Rendering – Dashboard
+============================================================ */
+function fmt(n){ return Math.round(n).toLocaleString('de-DE'); }
+function money(n){ return fmt(n)+' €'; }
+
+function tierFor(kapital){
+  let t=TIERS[0];
+  for(const x of TIERS){ if(kapital>=x.min) t=x; }
+  return t;
+}
+function levelFor(kapital){
+  let lvl=1; for(let i=0;i<TIERS.length;i++){ if(kapital>=TIERS[i].min) lvl=i+1; } return lvl;
+}
+
+function renderDashboard(){
+  if(!game) return;
+  game.level = levelFor(game.kapital);
+  const gewinn = game.umsatz - game.kosten;
+  const t = tierFor(game.kapital);
+
+  document.getElementById('db-firma').textContent = game.firma;
+  document.getElementById('db-month').textContent = `Monat ${game.monat}/${MAX_MONTHS}`;
+  document.getElementById('db-emoji').textContent = t.emoji;
+  document.getElementById('db-name').textContent = t.name;
+  document.getElementById('db-tier').textContent = `Level ${game.level} · ${t.desc}`;
+  document.getElementById('db-skyline').textContent = t.sky;
+
+  setVal('s-kapital', money(game.kapital));
+  setVal('s-umsatz', '+'+money(game.umsatz));
+  setVal('s-kosten', '-'+money(game.kosten));
+  const gEl=document.getElementById('s-gewinn');
+  gEl.textContent=(gewinn>=0?'+':'')+money(gewinn);
+  gEl.className='val '+(gewinn>=0?'pos':'neg');
+  setVal('s-kunden', fmt(game.kunden));
+  setVal('s-rep', Math.round(game.rep));
+  setVal('s-risk', Math.round(game.risk));
+  document.getElementById('bar-rep').style.width = clamp(game.rep,0,100)+'%';
+  document.getElementById('bar-risk').style.width = clamp(game.risk,0,100)+'%';
+
+  document.getElementById('shop-kapital').textContent = money(game.kapital);
+  save();
+}
+function setVal(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+/* ============================================================
+   Shop
+============================================================ */
+function renderShop(){
+  document.getElementById('shop-kapital').textContent = money(game.kapital);
+  const list=document.getElementById('shop-list');
+  list.innerHTML='';
+  INVESTMENTS.forEach(inv=>{
+    const owned = game.owned[inv.id]||0;
+    const canAfford = game.kapital >= inv.price;
+    const chips=[];
+    if(inv.umsatz>0) chips.push(`<span class="chip up">📈 +${inv.umsatz} Umsatz</span>`);
+    if(inv.kosten>0) chips.push(`<span class="chip down">📉 +${inv.kosten} Kosten</span>`);
+    if(inv.kosten<0) chips.push(`<span class="chip up">📉 ${inv.kosten} Kosten</span>`);
+    if(inv.capital) chips.push(`<span class="chip up">💰 +${fmt(inv.capital)} € sofort</span>`);
+    if(inv.rep>0) chips.push(`<span class="chip rep">⭐ +${inv.rep} Ruf</span>`);
+    if(inv.rep<0) chips.push(`<span class="chip risk">⭐ ${inv.rep} Ruf</span>`);
+    if(inv.risk>0) chips.push(`<span class="chip risk">⚠️ +${inv.risk} Risiko</span>`);
+    if(inv.risk<0) chips.push(`<span class="chip up">⚠️ ${inv.risk} Risiko</span>`);
+
+    const priceTxt = inv.price===0 ? 'Gratis' : money(inv.price);
+    const card=document.createElement('div');
+    card.className='inv-card';
+    card.innerHTML=`
+      <div class="inv-head">
+        <div class="inv-ico">${inv.ico}</div>
+        <div class="inv-title">${inv.name}</div>
+        ${owned?`<span class="inv-owned">${owned}×</span>`:''}
+      </div>
+      <div class="inv-effects">${chips.join('')}</div>
+      <div class="inv-learn">💡 ${inv.learn}</div>
+      <div class="inv-buy">
+        <div class="inv-price">${priceTxt}</div>
+        <button class="btn green sm" style="width:auto;padding:12px 22px" ${canAfford?'':'disabled'} onclick="buy('${inv.id}',event)">
+          ${canAfford?'Kaufen':'Zu teuer'}
+        </button>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function buy(id,ev){
+  const inv=INVESTMENTS.find(i=>i.id===id);
+  if(!inv || game.kapital<inv.price) return;
+  game.kapital -= inv.price;
+  if(inv.capital) game.kapital += inv.capital;
+  game.umsatz = Math.max(0, game.umsatz + inv.umsatz);
+  game.kosten = Math.max(0, game.kosten + inv.kosten);
+  game.rep = clamp(game.rep + inv.rep, 0, 100);
+  game.risk = clamp(game.risk + inv.risk, 0, 100);
+  game.kunden += Math.round(inv.umsatz/12) + inv.rep;
+  game.owned[id]=(game.owned[id]||0)+1;
+
+  floatMoney(ev, (inv.capital? '+'+fmt(inv.capital)+' €' : '-'+money(inv.price)), inv.capital?'#4ade80':'#fde047');
+  toast(`${inv.ico} ${inv.name} gekauft!`,'good');
+  renderShop(); renderDashboard();
+}
+
+/* ============================================================
+   Next Month
+============================================================ */
+function nextMonth(){
+  if(game.over) return;
+  const startKapital = game.kapital;
+  let log=[];
+
+  // Organic growth from reputation & marketing
+  const repBoost = game.rep;
+  const newKunden = Math.round(repBoost*0.6 - game.risk*0.3);
+  game.kunden = Math.max(0, game.kunden + newKunden);
+  // Umsatz slightly scales with customer base
+  const kundenBonus = Math.round(game.kunden*1.5);
+  const effUmsatz = game.umsatz + kundenBonus;
+
+  const gewinn = effUmsatz - game.kosten;
+  game.kapital += gewinn;
+
+  // Random risk event
+  let event=null;
+  const roll = Math.random()*100;
+  if(roll < game.risk){
+    const loss = Math.round(game.kapital*0.08 + 300 + Math.random()*700);
+    game.kapital -= loss;
+    game.rep = clamp(game.rep-5,0,100);
+    const events=[
+      `⚠️ Ein Serverausfall kostete dich ${money(loss)}.`,
+      `⚠️ Ein wichtiger Kunde sprang ab – Verlust: ${money(loss)}.`,
+      `⚠️ Unerwartete Steuernachzahlung: ${money(loss)}.`,
+      `⚠️ Eine schlechte Presse-Story kostete ${money(loss)} & Reputation.`,
+      `⚠️ Ein Mitarbeiter kündigte spontan – Ausfall: ${money(loss)}.`,
+    ];
+    event={type:'bad', text:events[Math.floor(Math.random()*events.length)]};
+  } else if(roll > 92 && game.rep>40){
+    const bonus = Math.round(500 + Math.random()*1500);
+    game.kapital += bonus;
+    game.rep = clamp(game.rep+3,0,100);
+    const events=[
+      `🎉 Ein Testbericht lobt dich – Bonus-Umsatz: ${money(bonus)}!`,
+      `🎉 Virale Empfehlung bringt ${money(bonus)} extra!`,
+      `🎉 Ein Großkunde bestellt – zusätzliche ${money(bonus)}!`,
+    ];
+    event={type:'good', text:events[Math.floor(Math.random()*events.length)]};
+  }
+
+  // Slight natural decay
+  game.rep = clamp(game.rep-1,0,100);
+  game.risk = clamp(game.risk-1,0,100);
+
+  game.monat++;
+  game.level = levelFor(game.kapital);
+
+  // Bankruptcy?
+  if(game.kapital<=0){ game.over=true; save(); return endGame(false); }
+  // Game finished?
+  if(game.monat>MAX_MONTHS){ game.over=true; save(); return endGame(true); }
+
+  save();
+  renderReport(startKapital, effUmsatz, game.kosten, gewinn, newKunden, event, kundenBonus);
+}
+
+function renderReport(startK, umsatz, kosten, gewinn, newKunden, event, kundenBonus){
+  document.getElementById('report-month').textContent = `Monat ${game.monat-1}`;
+  const body=document.getElementById('report-body');
+  const diff = game.kapital-startK;
+  let eventHtml='';
+  if(event){
+    eventHtml=`<div class="event-box ${event.type==='good'?'good':''}">${event.text}</div>`;
+  }
+  body.innerHTML=`
+    <div class="company-vis" style="margin-bottom:14px">
+      <div class="company-emoji">${diff>=0?'📈':'📉'}</div>
+      <div class="company-name">${diff>=0?'Guter Monat!':'Schwieriger Monat'}</div>
+      <div class="company-tier">${diff>=0?'Deine Firma ist gewachsen.':'Behalte die Kosten im Blick.'}</div>
+    </div>
+    <div class="report-line"><span class="k">📈 Umsatz (inkl. Kunden-Bonus)</span><span class="v pos">+${money(umsatz)}</span></div>
+    <div class="report-line"><span class="k">↳ davon durch ${fmt(game.kunden)} Kunden</span><span class="v pos">+${money(kundenBonus)}</span></div>
+    <div class="report-line"><span class="k">📉 Kosten</span><span class="v neg">-${money(kosten)}</span></div>
+    <div class="report-line"><span class="k">💵 Gewinn</span><span class="v ${gewinn>=0?'pos':'neg'}">${gewinn>=0?'+':''}${money(gewinn)}</span></div>
+    <div class="report-line"><span class="k">👥 Neue Kunden</span><span class="v ${newKunden>=0?'pos':'neg'}">${newKunden>=0?'+':''}${fmt(newKunden)}</span></div>
+    ${eventHtml}
+    <div class="report-line"><span class="k">💰 Kapital neu</span><span class="v">${money(game.kapital)}</span></div>
+    <div class="report-line"><span class="k">📊 Veränderung</span><span class="v ${diff>=0?'pos':'neg'}">${diff>=0?'+':''}${money(diff)}</span></div>
+    <div style="height:20px"></div>
+    <button class="btn green" onclick="afterReport()">✅ Weiter</button>
+  `;
+  showView('report');
+  if(diff<0) body.querySelector('.company-vis').classList.add('shake');
+}
+function afterReport(){
+  showView('dashboard'); renderDashboard();
+  // milestone celebration
+  const t=tierFor(game.kapital);
+  if(game._lastTier!==t.name){
+    game._lastTier=t.name;
+    if(t.min>0){ toast(`${t.emoji} Aufstieg: ${t.name}!`,'good'); }
+    save();
+  }
+}
+
+/* ============================================================
+   End game
+============================================================ */
+function endGame(finished){
+  let emoji, title, msg, rank;
+  if(!finished){
+    emoji='💥'; title='Insolvenz!'; msg='Dein Kapital ist aufgebraucht. Aber jeder Gründer scheitert mal – versuch es erneut!';
+    rank='Rang: Gescheitert – aber schlauer 💪';
+  } else {
+    const k=game.kapital;
+    if(k>=150000){emoji='🦄';title='UNICORN!';rank='Rang: Legendär 🌟';}
+    else if(k>=80000){emoji='🏙️';title='Marktführer!';rank='Rang: Hervorragend 🏆';}
+    else if(k>=45000){emoji='🏬';title='Etablierte Firma!';rank='Rang: Sehr gut ⭐';}
+    else if(k>=20000){emoji='🏢';title='Solides Unternehmen';rank='Rang: Gut 👍';}
+    else {emoji='🏪';title='Kleine Firma';rank='Rang: Ausbaufähig 📈';}
+    msg=`Du hast 24 Monate überstanden und ${money(k)} Kapital aufgebaut!`;
+  }
+  modal(`<div class="big-emoji">${emoji}</div><h2>${title}</h2>
+    <div class="rank-line"><b>${rank}</b><br>💰 Endkapital: ${money(game.kapital)}<br>⭐ Reputation: ${Math.round(game.rep)} · ⚔️ Battle-Siege: ${game.battleWins}</div>
+    <p>${msg}</p>
+    <button class="btn" onclick="closeModal();doReset()">🔄 Neues Spiel</button>`);
+}
+
+/* ============================================================
+   BATTLE MODE
+============================================================ */
+let battle=null;
+function openBattle(){
+  const ai = AI_NAMES[Math.floor(Math.random()*AI_NAMES.length)];
+  battle={ round:1, meScore:0, aiScore:0, aiName:ai[0], aiEmoji:ai[1], results:[], done:false };
+  document.getElementById('bt-ai-name').textContent = ai[0];
+  document.getElementById('bt-ai-emoji').textContent = ai[1];
+  document.getElementById('bt-me-name').textContent = game?game.firma:'Deine Firma';
+  document.getElementById('bt-log').innerHTML='';
+  renderBattle();
+  showView('battle');
+}
+function renderBattle(){
+  document.getElementById('battle-round').textContent = `Runde ${Math.min(battle.round,5)}/5`;
+  document.getElementById('bt-me-score').textContent = battle.meScore;
+  document.getElementById('bt-ai-score').textContent = battle.aiScore;
+  // dots
+  const dots=document.getElementById('bt-dots');
+  dots.innerHTML='';
+  for(let i=0;i<5;i++){
+    const d=document.createElement('div'); d.className='dot';
+    const r=battle.results[i];
+    if(r==='win')d.classList.add('won'); else if(r==='lose')d.classList.add('lost'); else if(r==='tie')d.classList.add('tie');
+    dots.appendChild(d);
+  }
+  const strats=document.getElementById('bt-strats');
+  if(battle.done){
+    document.getElementById('bt-prompt').textContent='Battle beendet!';
+    strats.innerHTML=`<button class="btn" style="grid-column:span 2" onclick="openBattle()">🔁 Neues Battle</button>`;
+    return;
+  }
+  document.getElementById('bt-prompt').textContent='Wähle deine Strategie:';
+  strats.innerHTML='';
+  STRATS.forEach(s=>{
+    const b=document.createElement('div');
+    b.className='strat-btn';
+    b.innerHTML=`<span class="s-ico">${s.ico}</span>${s.name}`;
+    b.onclick=()=>playBattleRound(s);
+    strats.appendChild(b);
+  });
+}
+function playBattleRound(myStrat){
+  if(battle.done) return;
+  const aiStrat = STRATS[Math.floor(Math.random()*STRATS.length)];
+  // Reputation bonus from your company
+  const repBonus = game ? Math.round((game.rep-40)/10) : 0;
+
+  const myPts = scoreStrat(myStrat) + repBonus + Math.floor(Math.random()*5);
+  const aiPts = scoreStrat(aiStrat) + Math.floor(Math.random()*7);
+
+  let result, resTxt, resClass;
+  if(myPts>aiPts){ battle.meScore++; result='win'; resTxt='✅ Runde gewonnen!'; resClass='pos'; }
+  else if(myPts<aiPts){ battle.aiScore++; result='lose'; resTxt='❌ Runde verloren'; resClass='neg'; }
+  else { result='tie'; resTxt='🤝 Unentschieden'; resClass=''; }
+  battle.results.push(result);
+
+  const log=document.getElementById('bt-log');
+  const line=document.createElement('div');
+  line.className='lr';
+  line.innerHTML=`<b>Runde ${battle.round}:</b> Du ${myStrat.ico} <b>${myStrat.name}</b> (${myPts}) vs. ${battle.aiEmoji} ${aiStrat.name} (${aiPts}) → <span class="${resClass}"><b>${resTxt}</b></span>`;
+  log.prepend(line);
+
+  battle.round++;
+  if(battle.round>5){ finishBattle(); return; }
+  renderBattle();
+}
+function scoreStrat(s){
+  // combined weighted score of the strategy
+  return Math.round(s.share*1.0 + s.profit*1.2 + s.rep*0.8 - Math.max(0,s.risk)*0.5 + 15);
+}
+function finishBattle(){
+  battle.done=true;
+  let title,emoji,reward=0;
+  if(battle.meScore>battle.aiScore){
+    title='Du gewinnst das Battle!'; emoji='🏆';
+    reward=1500;
+    if(game){ game.battleWins++; game.kapital+=reward; game.rep=clamp(game.rep+6,0,100); }
+  } else if(battle.meScore<battle.aiScore){
+    title='Die KI-Firma gewinnt'; emoji='😤';
+    if(game){ game.rep=clamp(game.rep-3,0,100); }
+  } else {
+    title='Unentschieden!'; emoji='🤝';
+    reward=500; if(game){ game.kapital+=reward; }
+  }
+  save();
+  renderBattle();
+  modal(`<div class="big-emoji">${emoji}</div><h2>${title}</h2>
+    <div class="rank-line">Endstand: <b>${battle.meScore} : ${battle.aiScore}</b> gegen ${battle.aiName}${reward?`<br>💰 Belohnung: +${money(reward)}`:''}</div>
+    <p>${battle.meScore>battle.aiScore?'Stark! Dein Sieg bringt Kapital und Reputation.':battle.meScore<battle.aiScore?'Knapp verloren – analysiere die Strategien und versuch es erneut!':'Ausgeglichen – beim nächsten Mal holst du den Sieg!'}</p>
+    <button class="btn green" onclick="closeModal();exitBattle()">🏠 Zum Dashboard</button>
+    <div style="height:10px"></div>
+    <button class="btn ghost" onclick="closeModal();openBattle()">🔁 Nochmal</button>`);
+}
+function exitBattle(){ showView('dashboard'); renderDashboard(); }
+
+/* ============================================================
+   UI helpers – toast, float, modal
+============================================================ */
+function toast(msg,type){
+  const layer=document.getElementById('toast-layer');
+  const t=document.createElement('div');
+  t.className='toast '+(type||'');
+  t.textContent=msg;
+  layer.appendChild(t);
+  setTimeout(()=>{ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, 1800);
+}
+function floatMoney(ev,txt,color){
+  if(!ev) return;
+  const el=document.createElement('div');
+  el.className='float-money'; el.textContent=txt; el.style.color=color||'#fde047';
+  const x=ev.clientX||window.innerWidth/2, y=ev.clientY||window.innerHeight/2;
+  el.style.left=(x-20)+'px'; el.style.top=(y-20)+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),1000);
+}
+function modal(html){ document.getElementById('modal').innerHTML=html; document.getElementById('overlay').classList.add('show'); }
+function closeModal(){ document.getElementById('overlay').classList.remove('show'); }
+
+/* ============================================================
+   Boot
+============================================================ */
+function checkContinue(){
+  const saved=load();
+  const btn=document.getElementById('continueBtn');
+  if(saved && !saved.over){ btn.style.display='block'; }
+  else { btn.style.display='none'; }
+}
+(function boot(){
+  game=load();
+  checkContinue();
+  if(game && !game.over){
+    // stay on start screen, offer continue; but show nav-less start
+    showView('start'); showNav(false);
+  } else {
+    showView('start'); showNav(false);
+  }
+  // track last tier for milestones
+  if(game) game._lastTier = tierFor(game.kapital).name;
+})();
+</script>
+</body>
+</html>
