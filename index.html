@@ -15,16 +15,10 @@
   --cyan:#06b6d4;
   --txt:#f5f3ff; --muted:#b9b4d6;
   --shadow:0 10px 30px rgba(0,0,0,.45);
-  --radius:20px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;}
 html,body{height:100%;}
-body{
-  background:linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg3));
-  color:var(--txt);
-  overflow-x:hidden;
-  -webkit-user-select:none;user-select:none;
-}
+body{background:linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg3));color:var(--txt);overflow-x:hidden;-webkit-user-select:none;user-select:none;}
 #app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:88px;}
 .view{display:none;animation:fade .35s ease;}
 .view.active{display:block;}
@@ -34,28 +28,16 @@ body{
 @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
 @keyframes glow{0%,100%{box-shadow:0 0 0 rgba(124,58,237,0);}50%{box-shadow:0 0 24px rgba(168,85,247,.6);}}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:0;}}
+@keyframes tick{0%{opacity:0;transform:translateY(6px);}100%{opacity:1;transform:none;}}
 
-/* ---------- Header ---------- */
-.topbar{
-  position:sticky;top:0;z-index:50;
-  background:rgba(20,16,45,.85);backdrop-filter:blur(12px);
-  padding:14px 18px;display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.topbar h1{font-size:19px;font-weight:800;letter-spacing:.3px;display:flex;align-items:center;gap:8px;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(20,16,45,.85);backdrop-filter:blur(12px);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);}
+.topbar h1{font-size:18px;font-weight:800;letter-spacing:.3px;display:flex;align-items:center;gap:8px;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .topbar-right{display:flex;align-items:center;gap:8px;}
 .badge-month{background:linear-gradient(135deg,var(--accent),var(--accent2));padding:6px 12px;border-radius:14px;font-size:13px;font-weight:700;white-space:nowrap;}
 .trophy-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:800;padding:6px 10px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:3px;}
 .trophy-btn:active{transform:scale(.94);}
 
-/* ---------- Buttons ---------- */
-.btn{
-  display:block;width:100%;border:none;cursor:pointer;
-  padding:18px;border-radius:18px;font-size:17px;font-weight:800;color:#fff;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  box-shadow:var(--shadow);transition:transform .12s ease,filter .12s ease;
-  letter-spacing:.3px;
-}
+.btn{display:block;width:100%;border:none;cursor:pointer;padding:18px;border-radius:18px;font-size:17px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:var(--shadow);transition:transform .12s ease,filter .12s ease;letter-spacing:.3px;}
 .btn:active{transform:scale(.96);filter:brightness(1.1);}
 .btn.green{background:linear-gradient(135deg,var(--green),var(--greenD));}
 .btn.blue{background:linear-gradient(135deg,var(--blue),#2563eb);}
@@ -66,7 +48,6 @@ body{
 .btn:disabled{filter:grayscale(.7) brightness(.6);cursor:not-allowed;}
 .btn .preview{display:block;font-size:12.5px;font-weight:700;opacity:.92;margin-top:3px;}
 
-/* ---------- Start ---------- */
 #start{display:none;text-align:center;padding:34px 24px;}
 #start.active{display:flex;flex-direction:column;justify-content:center;min-height:100vh;}
 .logo{font-size:76px;animation:pop .6s ease, glow 3s ease-in-out infinite;margin-bottom:8px;}
@@ -78,17 +59,39 @@ body{
 .start-actions{display:flex;flex-direction:column;gap:12px;}
 .tagline{margin-top:22px;font-size:12.5px;color:var(--muted);line-height:1.6;}
 
-/* ---------- Content ---------- */
 .wrap{padding:16px 16px 30px;}
 .section-title{font-size:15px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:22px 4px 12px;}
 
-/* ---------- Goal card ---------- */
+/* Pitch */
+.pitch-label{font-size:13.5px;font-weight:800;color:var(--muted);margin:16px 4px 7px;display:block;}
+.pitch-input,.pitch-area{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;color:#fff;font-size:15px;padding:14px;outline:none;-webkit-user-select:text;user-select:text;}
+.pitch-area{min-height:110px;resize:vertical;line-height:1.5;}
+.pitch-input:focus,.pitch-area:focus{border-color:var(--accent2);}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
+.mode-card{background:linear-gradient(160deg,var(--card),var(--card2));border:2px solid rgba(255,255,255,.1);border-radius:16px;padding:13px 11px;cursor:pointer;text-align:center;}
+.mode-card.sel{border-color:var(--accent2);box-shadow:0 0 16px rgba(168,85,247,.4);}
+.mode-card .m-ico{font-size:26px;}
+.mode-card .m-name{font-weight:800;font-size:14px;margin-top:3px;}
+.mode-card .m-desc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.35;}
+.pitch-hint{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.45;}
+
+/* Investor modal stars */
+.stars{font-size:26px;letter-spacing:3px;margin:6px 0;}
+.investor-quote{background:rgba(255,255,255,.06);border-left:3px solid var(--accent2);border-radius:0 12px 12px 0;padding:11px 13px;font-size:13.5px;color:var(--muted);text-align:left;line-height:1.55;font-style:italic;margin-bottom:14px;}
+
+/* Market panel + ticker */
+.market-panel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px;}
+.mkt-box{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:10px 6px;text-align:center;}
+.mkt-box .mk-ico{font-size:22px;}
+.mkt-box .mk-l{font-size:10px;color:var(--muted);font-weight:700;margin-top:2px;}
+.mkt-box .mk-v{font-size:12px;font-weight:800;margin-top:1px;}
+.ticker{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 12px;margin-top:10px;font-size:12.5px;color:#c4b5fd;animation:tick .5s ease;line-height:1.45;}
+
 .goal-card{background:linear-gradient(135deg,#0e7490,#155e75);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 16px;margin:14px 0 4px;}
 .goal-top{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:14.5px;}
 .goal-amt{color:#fde047;}
 .goal-sub{font-size:12.5px;color:#cffafe;margin-top:7px;}
 
-/* ---------- Money math ---------- */
 .money-math{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:15px;margin-top:14px;}
 .mm-row{display:flex;align-items:center;justify-content:space-between;gap:6px;}
 .mm-item{flex:1;text-align:center;background:rgba(255,255,255,.05);border-radius:12px;padding:9px 4px;}
@@ -98,7 +101,6 @@ body{
 .mm-note{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:11px;border-left:3px solid var(--cyan);padding-left:9px;}
 .mm-warn{font-size:12.5px;color:#fca5a5;font-weight:700;margin-top:8px;background:rgba(239,68,68,.12);border-radius:10px;padding:8px 10px;}
 
-/* ---------- Missions ---------- */
 .mission-card{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:15px;margin-top:14px;}
 .mc-head{font-weight:800;font-size:14.5px;margin-bottom:10px;}
 .mc-row{margin-bottom:11px;}
@@ -107,13 +109,8 @@ body{
 .mc-rew{color:#fde047;font-weight:800;font-size:12px;white-space:nowrap;}
 .mc-empty{font-size:13px;color:var(--muted);}
 
-/* ---------- Stat cards ---------- */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
-.stat{
-  background:linear-gradient(160deg,var(--card),var(--card2));
-  border-radius:18px;padding:14px;position:relative;overflow:hidden;
-  border:1px solid rgba(255,255,255,.05);
-}
+.stat{background:linear-gradient(160deg,var(--card),var(--card2));border-radius:18px;padding:14px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.05);}
 .stat .lbl{font-size:12px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:5px;}
 .stat .val{font-size:22px;font-weight:900;margin-top:4px;}
 .stat .sub-note{font-size:10.5px;color:var(--muted);margin-top:2px;}
@@ -121,30 +118,23 @@ body{
 .stat.big .val{font-size:30px;}
 .pos{color:#4ade80;}.neg{color:#f87171;}
 
-/* progress bars */
 .bar-wrap{margin-top:8px;height:9px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;}
 .bar{height:100%;border-radius:6px;transition:width .6s cubic-bezier(.4,0,.2,1);}
 .bar.rep{background:linear-gradient(90deg,#22c55e,#4ade80);}
 .bar.risk{background:linear-gradient(90deg,#f59e0b,#ef4444);}
 .bar.lvl{background:linear-gradient(90deg,#06b6d4,#a855f7);}
 
-/* company visual */
-.company-vis{
-  background:linear-gradient(160deg,#1e293b,#0f172a);
-  border-radius:20px;padding:20px;text-align:center;margin-bottom:6px;
-  border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;
-}
-.company-emoji{font-size:64px;transition:transform .4s;display:inline-block;}
+.company-vis{background:linear-gradient(160deg,#1e293b,#0f172a);border-radius:20px;padding:18px;text-align:center;margin-bottom:6px;border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;}
+.company-emoji{font-size:60px;transition:transform .4s;display:inline-block;}
 .company-name{font-size:16px;font-weight:800;margin-top:6px;}
 .company-tier{font-size:13px;color:var(--muted);margin-top:2px;}
-.skyline{font-size:26px;letter-spacing:2px;margin-top:8px;min-height:32px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));}
+.skyline{font-size:24px;letter-spacing:2px;margin-top:8px;min-height:30px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));}
 
-/* ---------- Shop ---------- */
-.inv-card{
-  background:linear-gradient(160deg,var(--card),var(--card2));
-  border-radius:18px;padding:15px;margin-bottom:12px;
-  border:1px solid rgba(255,255,255,.06);position:relative;
-}
+/* Shop */
+.shop-tabs{display:flex;gap:8px;margin-bottom:14px;}
+.shop-tab{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:var(--muted);border-radius:14px;padding:11px;font-size:14px;font-weight:800;cursor:pointer;text-align:center;}
+.shop-tab.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+.inv-card{background:linear-gradient(160deg,var(--card),var(--card2));border-radius:18px;padding:15px;margin-bottom:12px;border:1px solid rgba(255,255,255,.06);position:relative;}
 .inv-head{display:flex;align-items:flex-start;gap:12px;}
 .inv-ico{font-size:34px;line-height:1;}
 .inv-title{font-size:16px;font-weight:800;flex:1;}
@@ -152,18 +142,31 @@ body{
 .inv-effects{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
 .chip{font-size:12px;padding:4px 9px;border-radius:10px;font-weight:700;background:rgba(255,255,255,.07);}
 .chip.up{color:#4ade80;}.chip.down{color:#f87171;}.chip.rep{color:#38bdf8;}.chip.risk{color:#fbbf24;}
+.fit-chip{font-size:12px;padding:6px 10px;border-radius:10px;font-weight:700;margin-bottom:8px;display:inline-block;}
+.fit-good{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.4);}
+.fit-mid{background:rgba(255,255,255,.07);color:var(--muted);border:1px solid rgba(255,255,255,.14);}
+.fit-bad{background:rgba(239,68,68,.13);color:#fca5a5;border:1px solid rgba(239,68,68,.4);}
 .inv-learn{font-size:12.5px;color:var(--muted);line-height:1.45;margin:6px 0 12px;border-left:3px solid var(--accent);padding-left:9px;font-style:italic;}
 .inv-buy{display:flex;align-items:center;gap:10px;}
 .inv-price{font-size:17px;font-weight:900;color:#fde047;flex:1;}
+.campaign-active{font-size:12px;color:#67e8f9;font-weight:700;background:rgba(6,182,212,.12);border-radius:10px;padding:7px 10px;margin-bottom:8px;}
 
-/* ---------- Report ---------- */
-.report-line{display:flex;justify-content:space-between;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.07);font-size:15px;}
+/* Report */
+.report-line{display:flex;justify-content:space-between;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.07);font-size:14.5px;gap:10px;}
 .report-line .k{color:var(--muted);}
-.report-line .v{font-weight:800;}
-.event-box{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);border-radius:14px;padding:14px;margin:16px 0;font-size:14px;line-height:1.5;}
+.report-line .v{font-weight:800;white-space:nowrap;}
+.event-box{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);border-radius:14px;padding:13px;margin:12px 0;font-size:13.5px;line-height:1.5;}
 .event-box.good{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);}
+.event-box.info{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.4);}
+.coach-box{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.4);border-radius:14px;padding:13px;margin:12px 0;font-size:13.5px;line-height:1.55;}
+.coach-box b{color:#e9d5ff;}
 
-/* ---------- Battle ---------- */
+/* Decision modal */
+.decision-opt{display:block;width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;color:#fff;padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;text-align:left;line-height:1.4;}
+.decision-opt:active{transform:scale(.97);background:rgba(168,85,247,.2);}
+.decision-opt .d-note{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-top:3px;}
+
+/* Battle */
 .league-line{text-align:center;font-size:12.5px;color:#c4b5fd;font-weight:700;background:rgba(124,58,237,.16);border:1px solid rgba(168,85,247,.35);border-radius:12px;padding:8px 10px;margin-bottom:10px;}
 .vs-row{display:flex;align-items:center;justify-content:space-around;margin:6px 0 14px;}
 .fighter{text-align:center;flex:1;}
@@ -172,11 +175,7 @@ body{
 .fighter .f-score{font-size:26px;font-weight:900;margin-top:2px;}
 .vs-mid{font-size:30px;font-weight:900;color:var(--accent2);}
 .strat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
-.strat-btn{
-  background:linear-gradient(160deg,var(--card),var(--card2));
-  border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px 10px;
-  text-align:center;cursor:pointer;transition:transform .1s;font-weight:700;font-size:13.5px;color:#fff;
-}
+.strat-btn{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:transform .1s;font-weight:700;font-size:13.5px;color:#fff;}
 .strat-btn:active{transform:scale(.95);}
 .strat-btn .s-ico{font-size:28px;display:block;margin-bottom:4px;}
 .battle-log{background:rgba(0,0,0,.25);border-radius:14px;padding:12px;margin-top:14px;font-size:13.5px;line-height:1.6;max-height:220px;overflow-y:auto;}
@@ -185,12 +184,10 @@ body{
 .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.15);}
 .dot.won{background:var(--green);}.dot.lost{background:var(--red);}.dot.tie{background:var(--amber);}
 
-/* ---------- Learn ---------- */
 .learn-card{background:linear-gradient(160deg,var(--card),var(--card2));border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid rgba(255,255,255,.06);}
 .learn-card h3{font-size:15px;margin-bottom:6px;display:flex;gap:8px;align-items:center;}
 .learn-card p{font-size:13.5px;color:var(--muted);line-height:1.5;}
 
-/* ---------- Achievements ---------- */
 .badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .badge{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:14px 10px;text-align:center;position:relative;}
 .badge.locked{opacity:.45;filter:grayscale(.8);}
@@ -203,19 +200,12 @@ body{
 .meta-box .mv{font-size:19px;font-weight:900;}
 .meta-box .ml{font-size:10.5px;color:var(--muted);margin-top:2px;}
 
-/* ---------- Bottom nav ---------- */
-.nav{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:60;
-  background:rgba(18,14,40,.92);backdrop-filter:blur(14px);
-  display:flex;justify-content:space-around;padding:8px 6px 12px;
-  border-top:1px solid rgba(255,255,255,.08);
-}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:60;background:rgba(18,14,40,.92);backdrop-filter:blur(14px);display:flex;justify-content:space-around;padding:8px 6px 12px;border-top:1px solid rgba(255,255,255,.08);}
 .nav.hidden{display:none;}
 .nav button{background:none;border:none;color:var(--muted);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 4px;border-radius:12px;transition:color .2s;flex:1;}
 .nav button .ico{font-size:22px;}
 .nav button.on{color:var(--accent2);}
 
-/* ---------- Toast / Overlay ---------- */
 #toast-layer{position:fixed;top:70px;left:0;right:0;z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;}
 .toast{background:rgba(30,27,58,.97);border:1px solid var(--accent);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:var(--shadow);animation:pop .3s ease;max-width:90%;text-align:center;}
 .toast.good{border-color:var(--green);}.toast.bad{border-color:var(--red);}
@@ -225,30 +215,61 @@ body{
 
 #overlay{position:fixed;inset:0;z-index:300;background:rgba(10,8,25,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:24px;}
 #overlay.show{display:flex;animation:fade .3s;}
-.modal{background:linear-gradient(160deg,var(--card),var(--card2));border-radius:24px;padding:28px 22px;max-width:400px;width:100%;text-align:center;border:1px solid rgba(255,255,255,.1);box-shadow:var(--shadow);animation:pop .4s ease;max-height:90vh;overflow-y:auto;}
-.modal .big-emoji{font-size:66px;margin-bottom:8px;}
-.modal h2{font-size:26px;font-weight:900;margin-bottom:8px;}
-.modal p{color:var(--muted);font-size:15px;line-height:1.55;margin-bottom:18px;}
-.modal .rank-line{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;margin-bottom:16px;font-size:14px;line-height:1.6;}
+.modal{background:linear-gradient(160deg,var(--card),var(--card2));border-radius:24px;padding:26px 20px;max-width:400px;width:100%;text-align:center;border:1px solid rgba(255,255,255,.1);box-shadow:var(--shadow);animation:pop .4s ease;max-height:90vh;overflow-y:auto;}
+.modal .big-emoji{font-size:62px;margin-bottom:8px;}
+.modal h2{font-size:24px;font-weight:900;margin-bottom:8px;}
+.modal p{color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:16px;}
+.modal .rank-line{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;margin-bottom:14px;font-size:13.5px;line-height:1.6;}
 .shake{animation:shake .4s;}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ===== START SCREEN ===== -->
+  <!-- ===== START ===== -->
   <section id="start" class="view active">
     <div class="logo">🚀</div>
     <h2>Startup Battle</h2>
-    <p class="sub">Baue in 24 Monaten dein Unternehmen auf.<br>Investiere klug. Wachse. Gewinne.</p>
+    <p class="sub">Pitche deine Idee. Überlebe den Markt.<br>Kein Durchlauf ist wie der andere.</p>
     <div class="start-stats" id="start-stats"></div>
     <div class="start-actions">
       <button class="btn green" onclick="continueGame()" id="continueBtn" style="display:none">▶️ Weiterspielen</button>
-      <button class="btn" onclick="newGame()">✨ Neues Spiel starten</button>
+      <button class="btn" onclick="openPitch()">✨ Neues Startup gründen</button>
       <button class="btn ghost" onclick="openAchievements('start')">🏆 Erfolge ansehen</button>
       <button class="btn ghost" onclick="openLearn('start')">📚 So funktioniert's</button>
     </div>
-    <p class="tagline">💡 Ein Firmen-Simulator, der zeigt, wie Umsatz, Kosten,<br>Gewinn, Reputation und Risiko zusammenhängen.</p>
+    <p class="tagline">🤖 Eine KI analysiert deine Geschäftsidee und formt<br>daraus deinen einzigartigen Spielverlauf.</p>
+  </section>
+
+  <!-- ===== PITCH ===== -->
+  <section id="pitch" class="view">
+    <div class="topbar"><h1>🎤 Dein Pitch</h1></div>
+    <div class="wrap">
+      <p style="color:var(--muted);font-size:14px;line-height:1.55;">
+        Überzeuge die KI-Investorin <b>Victoria Venture</b> von deiner Idee.
+        Je klarer dein Pitch, desto besser deine Startbedingungen!
+      </p>
+      <label class="pitch-label">🏢 Wie heißt deine Firma?</label>
+      <input class="pitch-input" id="p-name" maxlength="24" placeholder="z.B. GreenBite">
+      <label class="pitch-label">💡 Beschreibe deine Geschäftsidee</label>
+      <textarea class="pitch-area" id="p-idea" maxlength="400" placeholder="z.B. Ein Foodtruck mit veganen Burgern aus regionalen Zutaten für junge Leute in der Innenstadt..."></textarea>
+      <p class="pitch-hint">💡 Die KI erkennt Branche, Zielgruppe und Stärken deiner Idee – und passt das ganze Spiel daran an: Investitionen, Werbung, Ereignisse und deine Konkurrenz.</p>
+      <label class="pitch-label">⚙️ Schwierigkeit</label>
+      <div class="mode-grid">
+        <div class="mode-card sel" id="mode-normal" onclick="pickMode('normal')">
+          <div class="m-ico">🎯</div><div class="m-name">Normal</div>
+          <div class="m-desc">Fordernd aber fair. Pleite ist real möglich.</div>
+        </div>
+        <div class="mode-card" id="mode-hardcore" onclick="pickMode('hardcore')">
+          <div class="m-ico">💀</div><div class="m-name">Hardcore</div>
+          <div class="m-desc">Gnadenlos. Weniger Geld, härtere Krisen. Prestige ×2.</div>
+        </div>
+      </div>
+      <div style="height:20px"></div>
+      <button class="btn amber" onclick="submitPitch()">🎤 Pitch abgeben</button>
+      <div style="height:10px"></div>
+      <button class="btn ghost" onclick="showStart()">⬅️ Zurück</button>
+    </div>
   </section>
 
   <!-- ===== DASHBOARD ===== -->
@@ -257,36 +278,40 @@ body{
       <h1>🚀 <span id="db-firma">Meine Firma</span></h1>
       <div class="topbar-right">
         <button class="trophy-btn" onclick="openAchievements('dashboard')">🏆 <span id="db-ach-count">0</span></button>
-        <span class="badge-month" id="db-month">Monat 1/24</span>
+        <span class="badge-month" id="db-month">Monat 1/36</span>
       </div>
     </div>
     <div class="wrap">
       <div class="company-vis">
         <div class="company-emoji" id="db-emoji">🏠</div>
         <div class="company-name" id="db-name">Garagen-Startup</div>
-        <div class="company-tier" id="db-tier">Level 1 · Gerade gegründet</div>
+        <div class="company-tier" id="db-tier">Level 1</div>
         <div class="skyline" id="db-skyline">🏢</div>
       </div>
+
+      <div class="market-panel" id="market-panel"></div>
+      <div class="ticker" id="news-ticker">📰 ...</div>
 
       <div class="goal-card" id="goal-card"></div>
 
       <div class="stats-grid">
         <div class="stat big">
           <div class="lbl">💰 Kapital</div>
-          <div class="val" id="s-kapital">5.000 €</div>
+          <div class="val" id="s-kapital">4.000 €</div>
         </div>
         <div class="stat">
           <div class="lbl">📈 Umsatz/Monat</div>
           <div class="val pos" id="s-umsatz">0 €</div>
-          <div class="sub-note">inkl. Kunden</div>
+          <div class="sub-note" id="s-umsatz-note">inkl. Kunden & Markt</div>
         </div>
         <div class="stat">
           <div class="lbl">📉 Kosten/Monat</div>
           <div class="val neg" id="s-kosten">0 €</div>
+          <div class="sub-note" id="s-kosten-note"></div>
         </div>
         <div class="stat">
           <div class="lbl">👥 Kunden</div>
-          <div class="val" id="s-kunden">50</div>
+          <div class="val" id="s-kunden">40</div>
         </div>
         <div class="stat">
           <div class="lbl">💵 Gewinn/Monat</div>
@@ -294,8 +319,8 @@ body{
         </div>
         <div class="stat">
           <div class="lbl">⭐ Reputation</div>
-          <div class="val" id="s-rep">30</div>
-          <div class="bar-wrap"><div class="bar rep" id="bar-rep" style="width:30%"></div></div>
+          <div class="val" id="s-rep">25</div>
+          <div class="bar-wrap"><div class="bar rep" id="bar-rep" style="width:25%"></div></div>
         </div>
         <div class="stat">
           <div class="lbl">⚠️ Risiko</div>
@@ -308,24 +333,26 @@ body{
       <div class="mission-card" id="mission-card"></div>
 
       <div class="section-title">Nächster Schritt</div>
-      <button class="btn green" onclick="goToShop()">🛒 Investieren im Shop</button>
+      <button class="btn green" onclick="goToShop()">🛒 Investieren & Werben</button>
       <div style="height:12px"></div>
       <button class="btn amber" id="btn-nextmonth" onclick="nextMonth()">⏭️ Monat abschließen</button>
       <div style="height:12px"></div>
-      <button class="btn blue" onclick="openBattle()">⚔️ Battle gegen KI-Firma</button>
+      <button class="btn blue" onclick="openBattle()">⚔️ Battle gegen <span id="btn-rival">Konkurrent</span></button>
     </div>
   </section>
 
   <!-- ===== SHOP ===== -->
   <section id="shop" class="view">
     <div class="topbar">
-      <h1>🛒 Investment-Shop</h1>
-      <span class="badge-month" id="shop-kapital">5.000 €</span>
+      <h1>🛒 Shop</h1>
+      <span class="badge-month" id="shop-kapital">4.000 €</span>
     </div>
     <div class="wrap">
-      <p style="color:var(--muted);font-size:13.5px;margin-bottom:10px;line-height:1.5;">
-        Jede Investition verändert deine Firmenwerte dauerhaft. Wähle mit Bedacht – dein Kapital ist begrenzt!
-      </p>
+      <div class="shop-tabs">
+        <div class="shop-tab on" id="tab-inv" onclick="switchShopTab('inv')">🧱 Investitionen</div>
+        <div class="shop-tab" id="tab-ads" onclick="switchShopTab('ads')">📣 Werbung</div>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;line-height:1.5;" id="shop-hint"></p>
       <div id="shop-list"></div>
     </div>
   </section>
@@ -371,27 +398,24 @@ body{
 
   <!-- ===== LEARN ===== -->
   <section id="learn" class="view">
-    <div class="topbar">
-      <h1>📚 Lernhinweise</h1>
-    </div>
+    <div class="topbar"><h1>📚 Lernhinweise</h1></div>
     <div class="wrap">
-      <div class="learn-card"><h3>💰 Kapital</h3><p>Dein Geld auf dem Konto. Wird jeden Monat um den Gewinn erhöht – oder um den Verlust verringert. Geht es auf 0, ist die Firma pleite.</p></div>
-      <div class="learn-card"><h3>📈 Umsatz</h3><p>Alle Einnahmen eines Monats. Mehr Kunden und bessere Produkte = mehr Umsatz. Umsatz ist aber noch kein Gewinn!</p></div>
-      <div class="learn-card"><h3>📉 Kosten</h3><p>Was du monatlich ausgibst: Gehälter, Miete, Werbung. Kosten dürfen nicht höher als der Umsatz sein.</p></div>
-      <div class="learn-card"><h3>💵 So verdienst du Geld</h3><p><b>Umsatz − Kosten = Gewinn.</b> Nur wenn dein Umsatz höher ist als deine Kosten, machst du Gewinn. Dieser Gewinn wird am Monatsende deinem Kapital gutgeschrieben. Genau das siehst du auf dem Dashboard in der Gewinn-Formel.</p></div>
-      <div class="learn-card"><h3>⭐ Reputation</h3><p>Wie sehr Kunden dir vertrauen. Hohe Reputation bringt dir jeden Monat neue Kunden – und mehr Kunden bringen mehr Umsatz.</p></div>
-      <div class="learn-card"><h3>⚠️ Risiko</h3><p>Die Gefahr für teure Zwischenfälle. Der Wert ist grob die Prozent-Chance pro Monat auf einen Vorfall: 15 Risiko ≈ jede 7. Runde ein Problem. Halte es niedrig!</p></div>
-      <div class="learn-card"><h3>👥 Kunden</h3><p>Deine Käufer. Mehr Kunden bedeuten mehr Umsatz. Sie wachsen durch gute Reputation und Werbung.</p></div>
-      <div class="learn-card"><h3>🎯 Missionen & Erfolge</h3><p>Erfülle Missionen für Belohnungen und sammle Erfolge. Am Spielende bekommst du Prestige-Sterne, die dir beim nächsten Start mehr Kapital geben!</p></div>
+      <div class="learn-card"><h3>💵 So verdienst du Geld</h3><p><b>Umsatz − Kosten = Gewinn.</b> Nur wenn dein Umsatz höher ist als deine Kosten, wächst dein Kapital. Achtung: Kosten wachsen mit der Firmengröße mit!</p></div>
+      <div class="learn-card"><h3>🎤 Deine Idee zählt</h3><p>Die KI analysiert deinen Pitch und bestimmt Branche und Zielgruppe. <b>Alles im Spiel richtet sich danach:</b> Welche Investitionen wirken, welche Werbung ankommt, welche Ereignisse passieren.</p></div>
+      <div class="learn-card"><h3>📣 Werbung ist eine Entscheidung</h3><p>Jeder Werbekanal erreicht eine andere Zielgruppe. TikTok bringt einer Rechtsberatung wenig – ein TV-Spot einem lokalen Foodtruck auch nicht. <b>Falsche Werbung verbrennt Geld.</b> Und: Der gleiche Kanal wirkt bei Wiederholung schwächer.</p></div>
+      <div class="learn-card"><h3>🧱 Investitionen brauchen Zeit</h3><p>Neue Investitionen wirken erst <b>ab dem nächsten Monat</b> – und nicht jede passt zu deiner Firma. Die KI sagt dir ihre Einschätzung, entscheiden musst du.</p></div>
+      <div class="learn-card"><h3>🃏 Entscheidungen mit Spätfolgen</h3><p>Jeden Monat stellt dich das Spiel vor Situationen. Manche Folgen kommen sofort – andere erst Monate später. Das Spiel <b>merkt sich</b>, was du tust.</p></div>
+      <div class="learn-card"><h3>🌍 Der Markt lebt</h3><p>Konjunktur (☀️ Boom bis 🌧️ Rezession) und Branchen-Trends verändern deinen Umsatz. Und dein Konkurrent schläft nicht: Er wirbt, senkt Preise und stiehlt dir Kunden.</p></div>
+      <div class="learn-card"><h3>🏦 Kredite sind gefährlich</h3><p>Ein Kredit bringt sofort Geld, aber du zahlst 12 Monate lang Raten – auch wenn es schlecht läuft. Viele Pleiten beginnen mit einem Kredit zur falschen Zeit.</p></div>
+      <div class="learn-card"><h3>⚠️ Risiko eskaliert</h3><p>Der Risiko-Wert ist grob die Prozent-Chance pro Monat auf einen Vorfall. Bleibt er lange über 50, werden die Vorfälle immer teurer.</p></div>
+      <div class="learn-card"><h3>🌟 Prestige</h3><p>Am Spielende gibt es Prestige-Sterne (Hardcore: doppelt). Jeder Stern gibt dir beim nächsten Start mehr Kapital.</p></div>
       <button class="btn ghost" onclick="backFromLearn()">⬅️ Zurück</button>
     </div>
   </section>
 
   <!-- ===== ACHIEVEMENTS ===== -->
   <section id="achievements" class="view">
-    <div class="topbar">
-      <h1>🏆 Erfolge & Rekorde</h1>
-    </div>
+    <div class="topbar"><h1>🏆 Erfolge & Rekorde</h1></div>
     <div class="wrap">
       <div class="meta-summary" id="meta-summary"></div>
       <div class="badge-grid" id="badge-grid"></div>
@@ -402,7 +426,7 @@ body{
     </div>
   </section>
 
-  <!-- ===== BOTTOM NAV ===== -->
+  <!-- ===== NAV ===== -->
   <div class="nav hidden" id="nav">
     <button data-v="dashboard" class="on" onclick="navTo('dashboard')"><span class="ico">🏠</span>Firma</button>
     <button data-v="shop" onclick="navTo('shop')"><span class="ico">🛒</span>Shop</button>
@@ -417,41 +441,284 @@ body{
 
 <script>
 /* ============================================================
-   STARTUP BATTLE – Game Logic
+   STARTUP BATTLE 2.0 – Dynamischer KI-Simulator
 ============================================================ */
-const SAVE_KEY = 'startupBattle_v1';
+const SAVE_KEY = 'startupBattle_v2';
 const META_KEY = 'startupBattle_meta_v1';
-const MAX_MONTHS = 24;
+const MAX_MONTHS = 36;
 
-/* ---------- Investments ---------- */
+/* ============================================================
+   BRANCHEN (mit Fit-Matrizen)
+   audience: {jung, erwachsen, lokal, online, business} 0..1
+============================================================ */
+const INDUSTRIES = {
+  food:       {name:'Food & Gastro', ico:'🍔', baseU:900, baseK:700, markt:1.0,
+    audience:{jung:.5, erwachsen:.5, lokal:.8, online:.2, business:.1},
+    invFit:{buero:0.5, ki:0.7, vertrieb:0.6, web:0.9, service:1.3, produkt:1.5, brand:1.2},
+    rivals:['Burger Baron','Snack Attack','Food Fabrik'], rivalIco:'🍟',
+    weakness:'Der Markt ist lokal begrenzt und hart umkämpft.',
+    trends:[['Streetfood boomt gerade – die Leute lieben es!',+1],['Ein Lebensmittelskandal verunsichert die Kunden.',-1],['Vegane Ernährung ist DAS Thema des Jahres.',+1]]},
+  tech:       {name:'Tech & App', ico:'📱', baseU:1000, baseK:850, markt:1.4,
+    audience:{jung:.7, erwachsen:.4, lokal:.1, online:1, business:.4},
+    invFit:{buero:0.4, ki:1.5, flyer:0.2, service:1.2, produkt:1.4, vertrieb:0.8, web:1.3},
+    rivals:['CodeRiot','Appocalypse','ByteStorm'], rivalIco:'👾',
+    weakness:'Tech-Nutzer sind anspruchsvoll und schnell wieder weg.',
+    trends:[['KI-Apps sind in aller Munde – Investoren werden nervös vor Gier.',+1],['Eine Datenschutz-Debatte trifft die ganze Branche.',-1],['Ein virales Tech-Video pusht die App-Downloads.',+1]]},
+  mode:       {name:'Mode & Fashion', ico:'👗', baseU:850, baseK:650, markt:1.1,
+    audience:{jung:.8, erwachsen:.4, lokal:.3, online:.8, business:.05},
+    invFit:{ki:0.6, brand:1.6, produkt:1.3, buero:0.6, markt:1.2},
+    rivals:['StyleStorm','Trendgier','Fashion Front'], rivalIco:'🕶️',
+    weakness:'Trends drehen sich schnell – was heute in ist, ist morgen out.',
+    trends:[['Nachhaltige Mode ist der Mega-Trend.',+1],['Fast-Fashion-Kritik trifft die Branche.',-1],['Fashion Week bringt Aufmerksamkeit für kleine Labels.',+1]]},
+  handwerk:   {name:'Handwerk', ico:'🔨', baseU:1100, baseK:800, markt:0.9,
+    audience:{jung:.15, erwachsen:.9, lokal:.9, online:.15, business:.4},
+    invFit:{ki:0.5, web:0.8, brand:0.7, training:1.5, service:1.3, vertrieb:1.2, buero:1.1},
+    rivals:['Meister Blitz','HandwerkHelden','Profi & Söhne'], rivalIco:'🔧',
+    weakness:'Fachkräfte sind knapp und Aufträge schwanken saisonal.',
+    trends:[['Handwerker sind gefragter denn je – volle Auftragsbücher!',+1],['Materialpreise explodieren.',-1]]},
+  fitness:    {name:'Fitness & Gesundheit', ico:'💪', baseU:900, baseK:700, markt:1.0,
+    audience:{jung:.6, erwachsen:.6, lokal:.6, online:.5, business:.1},
+    invFit:{service:1.4, brand:1.2, produkt:1.2, ki:0.8, buero:0.7},
+    rivals:['FitFactory','PumpPalace','VitalVikings'], rivalIco:'🏋️',
+    weakness:'Im Januar boomt es, im Sommer bleiben die Kunden weg.',
+    trends:[['Neujahrs-Vorsätze spülen Kunden herein!',+1],['Ein Fitness-Influencer-Skandal schadet der Branche.',-1]]},
+  gaming:     {name:'Gaming & E-Sport', ico:'🎮', baseU:950, baseK:800, markt:1.3,
+    audience:{jung:1, erwachsen:.25, lokal:.05, online:1, business:.1},
+    invFit:{buero:0.3, flyer:0.1, ki:1.3, produkt:1.5, service:1.1, brand:1.1, vertrieb:0.5},
+    rivals:['PixelPirates','GameOverInc','NoobSlayer GmbH'], rivalIco:'🕹️',
+    weakness:'Die Community ist gnadenlos, wenn die Qualität nicht stimmt.',
+    trends:[['Ein Gaming-Hype-Titel zieht die ganze Szene hoch.',+1],['Eltern-Debatte über Spielzeiten dämpft den Markt.',-1]]},
+  nachhaltig: {name:'Nachhaltigkeit', ico:'🌱', baseU:800, baseK:650, markt:1.0,
+    audience:{jung:.6, erwachsen:.6, lokal:.5, online:.6, business:.3},
+    invFit:{brand:1.4, markt:1.3, produkt:1.3, ki:0.7, kredit:0.8},
+    rivals:['GreenGiant','ÖkoImperium','FairFuture'], rivalIco:'♻️',
+    weakness:'Kunden prüfen genau, ob du wirklich nachhaltig bist – Greenwashing fliegt auf.',
+    trends:[['Klimadebatte: Nachhaltige Produkte boomen!',+1],['Greenwashing-Skandale machen Kunden misstrauisch.',-1]]},
+  bildung:    {name:'Bildung & Coaching', ico:'🎓', baseU:850, baseK:600, markt:1.0,
+    audience:{jung:.4, erwachsen:.7, lokal:.3, online:.8, business:.5},
+    invFit:{training:1.5, web:1.3, ki:1.1, buero:0.8, service:1.2},
+    rivals:['LernLegion','BrainBoost','WissenWerk'], rivalIco:'📖',
+    weakness:'Vertrauen aufzubauen dauert – ein schlechter Kurs zerstört es sofort.',
+    trends:[['Weiterbildung ist Trend – Firmen buchen Kurse en masse.',+1],['Gratis-KI-Tools machen bezahlte Kurse schwerer verkäuflich.',-1]]},
+  beauty:     {name:'Beauty & Kosmetik', ico:'💄', baseU:850, baseK:650, markt:1.0,
+    audience:{jung:.75, erwachsen:.5, lokal:.4, online:.7, business:.05},
+    invFit:{brand:1.5, produkt:1.3, service:1.2, ki:0.6, buero:0.6},
+    rivals:['GlowGetter','BeautyBlitz','Glamour Guerilla'], rivalIco:'💅',
+    weakness:'Der Markt ist voll von großen Marken mit riesigen Werbebudgets.',
+    trends:[['Clean Beauty ist der Trend der Saison.',+1],['Ein Inhaltsstoff-Skandal erschüttert die Branche.',-1]]},
+  handel:     {name:'Handel & Shop', ico:'🛍️', baseU:1000, baseK:800, markt:1.1,
+    audience:{jung:.4, erwachsen:.7, lokal:.5, online:.7, business:.2},
+    invFit:{web:1.4, ki:1.2, vertrieb:1.2, buchhaltung:1.3, service:1.2},
+    rivals:['MegaMarkt24','DealDiktator','ShopShogun'], rivalIco:'📦',
+    weakness:'Die Margen sind dünn und Online-Riesen drücken die Preise.',
+    trends:[['Kauflaune steigt – die Leute shoppen wieder!',+1],['Ein Online-Riese startet eine Rabattschlacht.',-1]]},
+};
+
+const IDEA_KEYWORDS = {
+  food:['food','essen','burger','pizza','café','cafe','restaurant','koch','back','kuchen','vegan','vegetarisch','truck','imbiss','getränk','saft','kaffee','snack','catering','bio','lebensmittel'],
+  tech:['app','software','tech','ki','ai','plattform','website','digital','code','programm','saas','cloud','daten','automatisier','online-dienst','startup-tool','smart'],
+  mode:['mode','fashion','kleidung','tshirt','t-shirt','schuhe','style','label','textil','schmuck','accessoire','hoodie','streetwear'],
+  handwerk:['handwerk','tischler','schreiner','maler','bau','renovier','reparatur','möbel','holz','metall','installateur','elektrik','garten'],
+  fitness:['fitness','sport','gym','training','yoga','gesundheit','ernährung','abnehmen','muskel','lauf','coach','physio','wellness'],
+  gaming:['gaming','game','spiel','esport','e-sport','zocken','streamer','twitch','konsole','pc-spiel','videospiel','clan'],
+  nachhaltig:['nachhaltig','öko','umwelt','recycling','klima','grün','solar','second hand','secondhand','upcycling','plastikfrei','fair'],
+  bildung:['bildung','lernen','kurs','nachhilfe','schule','coaching','seminar','weiterbildung','sprach','unterricht','tutorial','workshop'],
+  beauty:['beauty','kosmetik','makeup','make-up','pflege','creme','friseur','nagel','haar','parfüm','hautpflege'],
+  handel:['shop','laden','verkauf','handel','store','marktplatz','import','export','großhandel','onlineshop','e-commerce','ecommerce','produkte verkaufen'],
+};
+const AUDIENCE_KEYWORDS = {
+  jung:['jung','jugend','schüler','student','teenager','tiktok','trend','gen z','genz'],
+  lokal:['lokal','stadt','region','innenstadt','dorf','nachbarschaft','vor ort','heimat'],
+  online:['online','app','web','digital','internet','weltweit','global','versand'],
+  business:['b2b','firmen','unternehmen','geschäftskunden','büros','kanzlei','industrie'],
+};
+
+/* ============================================================
+   INVESTITIONEN (Wirkung × Branchen-Fit, 1 Monat Verzögerung)
+============================================================ */
 const INVESTMENTS = [
-  {id:'social', ico:'📱', name:'Social-Media-Werbung', price:800, umsatz:350, kosten:120, rep:8, risk:4,
-    learn:'Werbung bringt schnell neue Kunden – kostet aber jeden Monat Geld.'},
-  {id:'web', ico:'🌐', name:'Bessere Webseite', price:1200, umsatz:400, kosten:60, rep:12, risk:-2,
+  {id:'web', ico:'🌐', name:'Bessere Webseite', price:1200, umsatz:350, kosten:60, rep:10, risk:-2,
     learn:'Ein guter Auftritt schafft Vertrauen und verkauft rund um die Uhr.'},
-  {id:'produkt', ico:'🎁', name:'Produkt verbessern', price:1800, umsatz:600, kosten:150, rep:18, risk:-5,
+  {id:'produkt', ico:'🎁', name:'Produkt verbessern', price:1800, umsatz:500, kosten:140, rep:15, risk:-5,
     learn:'Ein besseres Produkt macht Kunden glücklich und senkt Beschwerden.'},
-  {id:'vertrieb', ico:'🤝', name:'Vertrieb einstellen', price:2500, umsatz:900, kosten:400, rep:5, risk:6,
+  {id:'vertrieb', ico:'🤝', name:'Vertrieb einstellen', price:2500, umsatz:750, kosten:450, rep:4, risk:6,
     learn:'Verkäufer bringen viel Umsatz, verursachen aber hohe Fixkosten.'},
-  {id:'service', ico:'🎧', name:'Kundenservice verbessern', price:1400, umsatz:250, kosten:200, rep:20, risk:-8,
+  {id:'service', ico:'🎧', name:'Kundenservice verbessern', price:1400, umsatz:200, kosten:200, rep:18, risk:-8,
     learn:'Guter Service hält Kunden und schützt vor schlechten Bewertungen.'},
-  {id:'ki', ico:'🤖', name:'KI-Automatisierung', price:3000, umsatz:500, kosten:-250, rep:6, risk:5,
+  {id:'ki', ico:'🤖', name:'KI-Automatisierung', price:3000, umsatz:400, kosten:-220, rep:5, risk:5,
     learn:'Automatisierung senkt langfristig die Kosten – die Einführung ist teuer.'},
-  {id:'buero', ico:'🏢', name:'Neues Büro', price:3500, umsatz:300, kosten:300, rep:15, risk:8,
+  {id:'buero', ico:'🏢', name:'Neues Büro', price:3500, umsatz:250, kosten:320, rep:14, risk:8,
     learn:'Ein Büro wirkt professionell, bindet aber viel Geld in Miete.'},
-  {id:'training', ico:'🎓', name:'Mitarbeitertraining', price:1600, umsatz:450, kosten:80, rep:10, risk:-6,
+  {id:'training', ico:'🎓', name:'Mitarbeitertraining', price:1600, umsatz:380, kosten:80, rep:9, risk:-6,
     learn:'Gut geschulte Mitarbeiter arbeiten besser und machen weniger Fehler.'},
-  {id:'markt', ico:'🔍', name:'Marktforschung', price:1000, umsatz:200, kosten:40, rep:7, risk:-10,
+  {id:'markt', ico:'🔍', name:'Marktforschung', price:1000, umsatz:170, kosten:40, rep:6, risk:-10,
     learn:'Wer den Markt kennt, trifft bessere Entscheidungen und senkt sein Risiko.'},
-  {id:'kredit', ico:'🏦', name:'Kredit aufnehmen', price:0, umsatz:0, kosten:250, rep:-5, risk:15, capital:4000,
-    learn:'Ein Kredit bringt sofort Kapital – kostet aber Zinsen und erhöht das Risiko.'},
-  {id:'brand', ico:'✨', name:'Premium-Branding', price:2200, umsatz:550, kosten:100, rep:25, risk:-3,
+  {id:'kredit', ico:'🏦', name:'Kredit aufnehmen', price:0, umsatz:0, kosten:0, rep:-4, risk:12, capital:4000, loan:true,
+    learn:'4.000 € sofort – aber 12 Monate lang 420 € Rate. Viele Pleiten beginnen so.'},
+  {id:'brand', ico:'✨', name:'Premium-Branding', price:2200, umsatz:450, kosten:100, rep:22, risk:-3,
     learn:'Eine starke Marke erlaubt höhere Preise und zieht treue Kunden an.'},
-  {id:'buchhaltung', ico:'📚', name:'Buchhaltungssystem', price:900, umsatz:100, kosten:-120, rep:4, risk:-12,
+  {id:'buchhaltung', ico:'📚', name:'Buchhaltungssystem', price:900, umsatz:80, kosten:-110, rep:3, risk:-12,
     learn:'Ordnung in den Zahlen spart Kosten und verhindert teure Fehler.'},
 ];
 
-/* ---------- Battle strategies ---------- */
+/* ============================================================
+   WERBEKANÄLE (Kampagnen über 3 Monate)
+============================================================ */
+const AD_CHANNELS = [
+  {id:'tiktok', ico:'📱', name:'TikTok & Insta', cost:450, kundenBase:55, rep:4,
+    audience:{jung:1, erwachsen:.25, lokal:.3, online:.9, business:.05},
+    learn:'Stark bei jungen, online-affinen Zielgruppen. Für B2B fast wirkungslos.'},
+  {id:'influencer', ico:'🤳', name:'Influencer-Deal', cost:700, kundenBase:70, rep:7,
+    audience:{jung:.9, erwachsen:.4, lokal:.2, online:.9, business:.05},
+    learn:'Glaubwürdig und reichweitenstark – wenn die Zielgruppe online lebt.'},
+  {id:'google', ico:'🔎', name:'Google-Ads', cost:550, kundenBase:50, rep:2,
+    audience:{jung:.5, erwachsen:.7, lokal:.5, online:.9, business:.5},
+    learn:'Erreicht Leute, die aktiv suchen. Solide für fast alle, teuer bei Konkurrenz.'},
+  {id:'tv', ico:'📺', name:'TV-Spot', cost:2000, kundenBase:130, rep:10,
+    audience:{jung:.2, erwachsen:.9, lokal:.3, online:.2, business:.2},
+    learn:'Riesige Reichweite bei Älteren – aber sehr teuer und ungenau.'},
+  {id:'flyer', ico:'📄', name:'Flyer & Lokalaktion', cost:250, kundenBase:30, rep:2,
+    audience:{jung:.3, erwachsen:.6, lokal:1, online:.05, business:.1},
+    learn:'Billig und stark im lokalen Umfeld – online völlig unsichtbar.'},
+  {id:'plakat', ico:'🪧', name:'Plakatwerbung', cost:800, kundenBase:55, rep:5,
+    audience:{jung:.4, erwachsen:.7, lokal:.9, online:.1, business:.2},
+    learn:'Präsenz in der Stadt. Gut lokal, wirkungslos für reine Online-Firmen.'},
+  {id:'zeitung', ico:'📰', name:'Zeitungsanzeige', cost:600, kundenBase:40, rep:4,
+    audience:{jung:.05, erwachsen:.9, lokal:.7, online:.05, business:.4},
+    learn:'Erreicht ältere und geschäftliche Zielgruppen – junge Leute nie.'},
+];
+
+/* ============================================================
+   ENTSCHEIDUNGSKARTEN (mit Spätfolgen)
+   opt: {t, note, fx:{...}, flag, delayed:{m, text, fx}}
+============================================================ */
+const DECISIONS = [
+  {id:'grosskunde', cond:g=>g.monat>=3, text:'📦 Ein Großkunde will einen Jahresvertrag – verlangt aber 30 % Rabatt.', opts:[
+    {t:'Annehmen', note:'Sicherer Umsatz, kleine Marge', fx:{umsatz:280, rep:3}, flag:'grosskunde',
+      delayed:{m:4, text:'Der Großkunde drückt weiter: Er verlangt noch bessere Konditionen – deine Marge schrumpft.', fx:{umsatz:-120}}},
+    {t:'Ablehnen', note:'Unabhängig bleiben', fx:{rep:1},
+      delayed:{m:2, text:'Der abgelehnte Großkunde ging zur Konkurrenz – sie ist jetzt stärker.', fx:{rivalStaerke:1}}},
+  ]},
+  {id:'lieferant', cond:g=>g.monat>=2, text:'🚚 Ein Billig-Lieferant bietet dir 25 % günstigere Ware an. Die Qualität? Naja.', opts:[
+    {t:'Wechseln', note:'Kosten sofort runter', fx:{kosten:-180}, flag:'billigware',
+      delayed:{m:3, text:'Die Billig-Qualität fliegt auf: Beschwerdewelle und Reputationsschaden!', fx:{rep:-12, kunden:-25, risk:6}}},
+    {t:'Beim teuren bleiben', note:'Qualität sichern', fx:{rep:3, risk:-2}},
+  ]},
+  {id:'presse', cond:g=>g.monat>=2, text:'📰 Eine Journalistin will eine Story über dich schreiben – kann positiv oder kritisch werden.', opts:[
+    {t:'Interview geben', note:'Chance & Risiko', fx:{}, flag:'presse', random:[{p:.65, text:'Die Story wird ein Hit! Tolle Publicity.', fx:{rep:10, kunden:30}},{p:.35, text:'Die Story fällt kritisch aus – autsch.', fx:{rep:-8, kunden:-15}}]},
+    {t:'Ablehnen', note:'Kein Risiko, keine Chance', fx:{}},
+  ]},
+  {id:'mitarbeiter', cond:g=>g.monat>=4, text:'👩‍💼 Deine beste Mitarbeiterin hat ein Angebot der Konkurrenz. Sie bleibt für +300 € Gehalt.', opts:[
+    {t:'Gehalt erhöhen', note:'Dauerkosten steigen', fx:{kosten:300, rep:2, risk:-3}},
+    {t:'Ziehen lassen', note:'Kosten sparen', fx:{risk:5},
+      delayed:{m:2, text:'Ohne deine Top-Kraft leidet die Qualität spürbar.', fx:{umsatz:-150, rep:-4}}},
+  ]},
+  {id:'steuer', cond:g=>g.monat>=5, text:'🧾 Dein Steuerberater findet einen Trick, der dir sofort 1.500 € spart. Er ist… „kreativ".', opts:[
+    {t:'Trick nutzen', note:'Schnelles Geld, hohes Risiko', fx:{kapital:1500, risk:8}, flag:'steuertrick',
+      delayed:{m:5, text:'Betriebsprüfung! Der Steuertrick kostet dich Nachzahlung und Strafe.', fx:{kapital:-2800, rep:-6}, chance:.6}},
+    {t:'Sauber bleiben', note:'Ruhig schlafen', fx:{risk:-2}},
+  ]},
+  {id:'viral', cond:g=>g.monat>=3, text:'🔥 Ein Meme über deine Branche geht viral. Du könntest aufspringen – oder es ignorieren.', opts:[
+    {t:'Aufspringen', note:'Jetzt oder nie', fx:{}, random:[{p:.6, text:'Dein Beitrag trifft den Ton – viraler Erfolg!', fx:{kunden:45, rep:6}},{p:.4, text:'Dein Beitrag wirkt anbiedernd. Cringe.', fx:{rep:-5}}]},
+    {t:'Ignorieren', note:'Fokus behalten', fx:{}},
+  ]},
+  {id:'buerokratie', cond:g=>g.monat>=4, text:'📋 Neue Vorschriften! Du musst nachrüsten: sofort teuer machen oder billig flicken?', opts:[
+    {t:'Richtig machen', note:'Teuer, aber sicher', fx:{kapital:-900, risk:-5}},
+    {t:'Billig flicken', note:'Erstmal günstig', fx:{kapital:-250, risk:6}, flag:'gepfuscht',
+      delayed:{m:4, text:'Eine Kontrolle entdeckt deine Billig-Lösung: Bußgeld!', fx:{kapital:-1400, rep:-5}, chance:.55}},
+  ]},
+  {id:'partner', cond:g=>g.monat>=6, text:'🤝 Ein anderes Startup schlägt eine Partnerschaft vor: gemeinsame Werbung, geteilte Kosten.', opts:[
+    {t:'Partnerschaft eingehen', note:'Zusammen stärker?', fx:{kosten:-100, kunden:20}, flag:'partner',
+      delayed:{m:5, text:'Dein Partner-Startup ist pleite – die Trennung kostet dich Kunden.', fx:{kunden:-30, rep:-3}, chance:.4}},
+    {t:'Alleine bleiben', note:'Volle Kontrolle', fx:{}},
+  ]},
+  {id:'rabatt', cond:g=>g.kunden>=80, text:'🏷️ Deine Kunden fordern eine Rabattaktion – die Konkurrenz macht schon eine.', opts:[
+    {t:'Rabattschlacht mitmachen', note:'Kunden halten, Marge opfern', fx:{kunden:35, umsatz:-140}},
+    {t:'Auf Qualität setzen', note:'Marge halten, Kunden riskieren', fx:{kunden:-20, rep:4}},
+  ]},
+  {id:'messestand', cond:g=>g.monat>=5, text:'🎪 Die wichtigste Messe deiner Branche: Ein Stand kostet 1.200 €.', opts:[
+    {t:'Stand buchen', note:'Sichtbarkeit für Profis', fx:{kapital:-1200}, random:[{p:.7, text:'Dein Messestand kommt super an – neue Kontakte und Kunden!', fx:{kunden:50, rep:8, umsatz:180}},{p:.3, text:'Die Messe war schlecht besucht. Geld fast verschenkt.', fx:{kunden:8}}]},
+    {t:'Zuhause bleiben', note:'Geld sparen', fx:{}},
+  ]},
+  {id:'ausland', cond:g=>g.kapital>=15000, text:'🌍 Ein Distributor will dein Produkt ins Ausland bringen. Vorabinvestition: 3.000 €.', opts:[
+    {t:'Expansion wagen', note:'Großes Risiko, große Chance', fx:{kapital:-3000, risk:6},
+      delayed:{m:3, text:'Die Auslands-Expansion zahlt sich aus: neue Umsatzquelle!', fx:{umsatz:600, kunden:60}, chance:.65, failText:'Die Expansion floppt – kulturelle Unterschiede unterschätzt.', failFx:{rep:-4}}},
+    {t:'Zu früh', note:'Erst den Heimatmarkt', fx:{rep:1}},
+  ]},
+  {id:'shitstorm', cond:g=>g.rep>=45, text:'💬 Ein Kunde beschwert sich lautstark online – halb berechtigt, halb übertrieben.', opts:[
+    {t:'Öffentlich entschuldigen + Gutschein', note:'Deeskalation kostet', fx:{kapital:-300, rep:5}},
+    {t:'Ignorieren', note:'Wird schon vorbeigehen…', fx:{}, flag:'ignoriert',
+      delayed:{m:1, text:'Die Beschwerde kocht hoch – kleiner Shitstorm!', fx:{rep:-9, kunden:-20}, chance:.5}},
+  ]},
+  {id:'praktikant', cond:g=>g.monat>=3, text:'🧑‍🎓 Ein motivierter Praktikant bewirbt sich. Betreuung kostet Zeit, aber er hat Ideen.', opts:[
+    {t:'Einstellen', note:'Frischer Wind', fx:{kosten:150},
+      delayed:{m:3, text:'Dein Praktikant hatte eine Gold-Idee – Prozess verbessert!', fx:{kosten:-200, rep:3}, chance:.6}},
+    {t:'Absagen', note:'Keine Zeit', fx:{}},
+  ]},
+  {id:'daten', cond:g=>g.monat>=6, text:'🔐 Ein IT-Check zeigt Sicherheitslücken. Die Reparatur kostet 800 €.', opts:[
+    {t:'Sofort fixen', note:'Sicherheit zuerst', fx:{kapital:-800, risk:-6}},
+    {t:'Später…', note:'Gerade kein Geld', fx:{risk:5}, flag:'lücke',
+      delayed:{m:3, text:'Hackerangriff! Deine ungefixte Lücke wird ausgenutzt.', fx:{kapital:-2200, rep:-10}, chance:.45}},
+  ]},
+  {id:'trend2', cond:g=>g.monat>=8, text:'📊 Deine Marktforschung entdeckt eine Nische neben deinem Kerngeschäft.', opts:[
+    {t:'Nische testen (1.000 €)', note:'Diversifizieren', fx:{kapital:-1000}, random:[{p:.55, text:'Die Nische funktioniert! Zweites Standbein aufgebaut.', fx:{umsatz:350, rep:4}},{p:.45, text:'Die Nische war ein Flop. Lehrgeld bezahlt.', fx:{rep:-2}}]},
+    {t:'Kerngeschäft stärken', note:'Fokus, Fokus, Fokus', fx:{rep:2, umsatz:80}},
+  ]},
+  {id:'invest_angebot', cond:g=>g.monat>=10 && g.rep>=55, text:'💼 Ein Investor bietet 5.000 € – will dafür aber mitreden und 10 % vom Umsatz.', opts:[
+    {t:'Deal annehmen', note:'Kapital gegen Kontrolle', fx:{kapital:5000}, flag:'investor',
+      delayed:{m:2, text:'Dein Investor kassiert mit: dauerhafte Umsatzbeteiligung.', fx:{kosten:250}}},
+    {t:'Ablehnen', note:'Dein Baby bleibt deins', fx:{rep:2}},
+  ]},
+  {id:'burnout', cond:g=>g.monat>=12, text:'😮‍💨 Du arbeitest 80-Stunden-Wochen. Dein Körper sendet Warnsignale.', opts:[
+    {t:'Urlaub nehmen (Firma pausiert)', note:'Gesundheit zuerst', fx:{umsatz:-100, risk:-8, rep:2}},
+    {t:'Durchziehen', note:'Keine Zeit für Pause', fx:{risk:4}, flag:'burnout',
+      delayed:{m:2, text:'Zusammenbruch! Du fällst 3 Wochen aus – die Firma leidet.', fx:{umsatz:-250, rep:-5, kapital:-800}, chance:.5}},
+  ]},
+  {id:'charity', cond:g=>g.kapital>=8000, text:'❤️ Eine lokale Initiative bittet um ein Sponsoring über 500 €.', opts:[
+    {t:'Sponsern', note:'Gutes tun, gesehen werden', fx:{kapital:-500, rep:7, kunden:12}},
+    {t:'Ablehnen', note:'Budget schützen', fx:{}},
+  ]},
+  {id:'kopie', cond:g=>g.monat>=9, text:'😱 Ein Nachahmer kopiert dein Konzept fast 1:1 und ist billiger!', opts:[
+    {t:'Anwalt einschalten (1.500 €)', note:'Wehr dich', fx:{kapital:-1500}, random:[{p:.6, text:'Dein Anwalt gewinnt: Der Nachahmer muss aufgeben!', fx:{rep:6, kunden:20}},{p:.4, text:'Der Rechtsstreit verläuft im Sand. Geld weg.', fx:{rep:-1}}]},
+    {t:'Besser sein als er', note:'Konkurrenz belebt', fx:{umsatz:-120, rep:3},
+      delayed:{m:3, text:'Deine Qualitätsoffensive zahlt sich aus – der Nachahmer verliert Kunden an dich.', fx:{kunden:35, umsatz:150}, chance:.6}},
+  ]},
+  {id:'preiserhoehung', cond:g=>g.rep>=60, text:'💶 Deine Reputation ist stark. Zeit für eine Preiserhöhung?', opts:[
+    {t:'Preise +10 %', note:'Marge rauf, Kunden riskieren', fx:{umsatz:250, kunden:-15}},
+    {t:'Preise halten', note:'Kundenbindung zuerst', fx:{kunden:10}},
+  ]},
+];
+
+/* ============================================================
+   KI-DIREKTOR EVENTS (automatisch, profilbasiert gewählt)
+   weight(g,d) → je höher, desto wahrscheinlicher
+============================================================ */
+const DIRECTOR_EVENTS = [
+  {id:'qualitaetskrise', type:'bad', weight:(g,d)=>d.profile.quality<0? 4+g.monat*0.1 : 0.5,
+    text:g=>'Deine Qualität wurde zu lange vernachlässigt: Beschwerdewelle!', fx:{rep:-8, kunden:-20}},
+  {id:'bankdruck', type:'bad', weight:(g,d)=>g.loans.length>0? 3+g.loans.length*2 : 0,
+    text:g=>'Deine Bank prüft deine Finanzen kritisch – Sonderprüfung kostet Zeit und Geld.', fx:{kapital:-400, risk:3}},
+  {id:'risiko_unfall', type:'bad', weight:(g,d)=>g.risk>50? 5 : g.risk>30? 2 : 0.5,
+    text:g=>'Dein hohes Risiko schlägt zu: Betriebsunfall legt dich tageweise lahm.', fxFn:g=>({kapital:-Math.round(300+g.risk*15), rep:-4})},
+  {id:'server', type:'bad', weight:(g,d)=>g.profile && g.branche==='tech'?3:1,
+    text:g=>'Technik-Ausfall! Systeme stehen still.', fxFn:g=>({kapital:-Math.round(250+g.kapital*0.03)})},
+  {id:'sparfalle', type:'bad', weight:(g,d)=>d.profile.spar>3? 3 : 0.3,
+    text:g=>'Du hast zu lange gespart: Deine Ausstattung ist veraltet, Kunden merken es.', fx:{rep:-5, umsatz:-100}},
+  {id:'chance_kooperation', type:'good', weight:(g,d)=>d.profile.quality>2? 3 : 1,
+    text:g=>'Dein guter Ruf zahlt sich aus: Eine bekannte Marke will mit dir kooperieren!', fx:{kunden:30, rep:5, umsatz:150}},
+  {id:'chance_presse', type:'good', weight:(g,d)=>g.rep>55? 3 : 0.5,
+    text:g=>'Ein Magazin kürt dich zum Geheimtipp deiner Branche!', fx:{kunden:40, rep:4}},
+  {id:'verlockung', type:'info', weight:(g,d)=>g.kapital>20000? 3 : 0,
+    text:g=>'Dein Erfolg zieht Aufmerksamkeit an: Berater, „Investoren" und Glücksritter klopfen an. Bleib wachsam.', fx:{risk:3}},
+  {id:'mitarbeiter_gut', type:'good', weight:(g,d)=>g.owned['training']? 3 : 0.5,
+    text:g=>'Dein geschultes Team glänzt: Kunden loben den Service ausdrücklich.', fx:{rep:5, kunden:15}},
+  {id:'steuerbonus', type:'good', weight:(g,d)=>g.owned['buchhaltung']? 2.5 : 0.3,
+    text:g=>'Deine saubere Buchhaltung findet einen legalen Steuervorteil!', fx:{kapital:600}},
+];
+
+/* ============================================================
+   BATTLE-STRATEGIEN
+============================================================ */
 const STRATS = [
   {id:'mkt', ico:'📣', name:'Marketing-Offensive', share:9, profit:4, rep:5, risk:5},
   {id:'qual', ico:'💎', name:'Produktqualität', share:6, profit:5, rep:9, risk:-3},
@@ -460,80 +727,64 @@ const STRATS = [
   {id:'serv', ico:'🎧', name:'Kundenservice', share:5, profit:3, rep:10, risk:-4},
   {id:'grow', ico:'🚀', name:'Risiko-Wachstum', share:13, profit:7, rep:-2, risk:13},
 ];
-/* League rivals: index 0 = Rang 1 (stärkster) ... index 5 = Rang 6 */
-const AI_NAMES=[['MegaSoft','👾'],['NovaTech','🛸'],['TurboInc','⚡'],['CloudNine','☁️'],['ByteBros','💾'],['RivalCorp','🤖']];
 
-/* ---------- Company tiers ---------- */
 const TIERS=[
   {min:0,     emoji:'🏠', name:'Garagen-Startup', desc:'Gerade gegründet', sky:'🏢'},
-  {min:8000,  emoji:'🏪', name:'Kleines Ladengeschäft', desc:'Erste Erfolge', sky:'🏢🏬'},
-  {min:20000, emoji:'🏢', name:'Wachsendes Unternehmen', desc:'Auf gutem Weg', sky:'🏢🏬🏢'},
-  {min:45000, emoji:'🏬', name:'Etablierte Firma', desc:'Fest im Markt', sky:'🏢🏬🏢🏦'},
-  {min:80000, emoji:'🏙️', name:'Marktführer', desc:'Die Konkurrenz staunt', sky:'🏙️🏢🏬🏢🏦'},
-  {min:150000,emoji:'🦄', name:'Unicorn', desc:'Legendäres Startup!', sky:'🌆🏙️🏢🏬🏦'},
+  {min:10000, emoji:'🏪', name:'Kleines Geschäft', desc:'Erste Erfolge', sky:'🏢🏬'},
+  {min:25000, emoji:'🏢', name:'Wachsendes Unternehmen', desc:'Auf gutem Weg', sky:'🏢🏬🏢'},
+  {min:55000, emoji:'🏬', name:'Etablierte Firma', desc:'Fest im Markt', sky:'🏢🏬🏢🏦'},
+  {min:100000,emoji:'🏙️', name:'Marktführer', desc:'Die Konkurrenz staunt', sky:'🏙️🏢🏬🏢🏦'},
+  {min:200000,emoji:'🦄', name:'Unicorn', desc:'Legendäres Startup!', sky:'🌆🏙️🏢🏬🏦'},
 ];
 
-/* ---------- Missions ---------- */
+/* ============================================================
+   MISSIONEN
+============================================================ */
 const MISSIONS = [
-  {id:'streak3', text:'Mache 3 Monate in Folge Gewinn', reward:{kapital:1000}, goal:3, prog:g=>Math.min(g.profitStreak||0,3), check:g=>(g.profitStreak||0)>=3},
-  {id:'rep60',   text:'Erreiche 60 Reputation', reward:{kapital:800}, goal:60, prog:g=>Math.min(Math.round(g.rep),60), check:g=>g.rep>=60},
-  {id:'buy5',    text:'Kaufe 5 verschiedene Investitionen', reward:{kapital:1000}, goal:5, prog:g=>Math.min(Object.keys(g.owned).length,5), check:g=>Object.keys(g.owned).length>=5},
-  {id:'risk10',  text:'Senke dein Risiko unter 10', reward:{rep:6}, goal:1, prog:g=>g.risk<10?1:0, check:g=>g.risk<10},
-  {id:'kunden200', text:'Gewinne 200 Kunden', reward:{kapital:1500}, goal:200, prog:g=>Math.min(g.kunden,200), check:g=>g.kunden>=200},
-  {id:'cap20k',  text:'Erreiche 20.000 € Kapital', reward:{kapital:2000}, goal:20000, prog:g=>Math.min(g.kapital,20000), check:g=>g.kapital>=20000},
-  {id:'battle1', text:'Gewinne ein Battle', reward:{kapital:1000}, goal:1, prog:g=>Math.min(g.battleWins,1), check:g=>g.battleWins>=1},
-  {id:'cap50k',  text:'Erreiche 50.000 € Kapital', reward:{kapital:5000}, goal:50000, prog:g=>Math.min(g.kapital,50000), check:g=>g.kapital>=50000},
+  {id:'streak3', text:'Mache 3 Monate in Folge Gewinn', reward:{kapital:900}, goal:3, prog:g=>Math.min(g.profitStreak||0,3), check:g=>(g.profitStreak||0)>=3},
+  {id:'kampagne', text:'Starte deine erste Werbekampagne', reward:{kapital:500}, goal:1, prog:g=>g.stats.campaigns>0?1:0, check:g=>g.stats.campaigns>0},
+  {id:'rep60', text:'Erreiche 60 Reputation', reward:{kapital:800}, goal:60, prog:g=>Math.min(Math.round(g.rep),60), check:g=>g.rep>=60},
+  {id:'fitkauf', text:'Kaufe 3 Investitionen, die gut zu dir passen', reward:{kapital:1000}, goal:3, prog:g=>Math.min(g.stats.fitBuys,3), check:g=>g.stats.fitBuys>=3},
+  {id:'battle1', text:'Gewinne ein Battle gegen deinen Rivalen', reward:{kapital:1000}, goal:1, prog:g=>Math.min(g.battleWins,1), check:g=>g.battleWins>=1},
+  {id:'monat12', text:'Überlebe die ersten 12 Monate', reward:{kapital:1500}, goal:12, prog:g=>Math.min(g.monat,12), check:g=>g.monat>=12},
+  {id:'rezession', text:'Überstehe eine Rezession mit Gewinn', reward:{kapital:2000}, goal:1, prog:g=>g.stats.rezessionProfit?1:0, check:g=>!!g.stats.rezessionProfit},
+  {id:'risk10', text:'Senke dein Risiko unter 10', reward:{rep:6}, goal:1, prog:g=>g.risk<10?1:0, check:g=>g.risk<10},
+  {id:'kunden300', text:'Gewinne 300 Kunden', reward:{kapital:1800}, goal:300, prog:g=>Math.min(g.kunden,300), check:g=>g.kunden>=300},
+  {id:'cap25k', text:'Erreiche 25.000 € Kapital', reward:{kapital:2000}, goal:25000, prog:g=>Math.min(g.kapital,25000), check:g=>g.kapital>=25000},
+  {id:'schuldenfrei', text:'Zahle einen Kredit komplett ab', reward:{kapital:1200}, goal:1, prog:g=>g.stats.loanPaid?1:0, check:g=>!!g.stats.loanPaid},
+  {id:'cap60k', text:'Erreiche 60.000 € Kapital', reward:{kapital:4000}, goal:60000, prog:g=>Math.min(g.kapital,60000), check:g=>g.kapital>=60000},
 ];
 
-/* ---------- Achievements (persistent) ---------- */
+/* ============================================================
+   ERFOLGE (persistent)
+============================================================ */
 const ACHIEVEMENTS = [
   {id:'first_profit', ico:'💵', name:'Erster Gewinn', desc:'Schließe einen Monat mit Gewinn ab', check:c=>c.profit>0},
+  {id:'pitch5', ico:'🎤', name:'Traumpitch', desc:'Erhalte 5 Sterne von der Investorin', check:c=>c.g.pitchStars>=5},
   {id:'cap10k', ico:'💰', name:'Fünfstellig', desc:'Erreiche 10.000 € Kapital', check:c=>c.g.kapital>=10000},
   {id:'cap50k', ico:'🏦', name:'Groß im Geschäft', desc:'Erreiche 50.000 € Kapital', check:c=>c.g.kapital>=50000},
-  {id:'unicorn', ico:'🦄', name:'Unicorn', desc:'Erreiche 150.000 € Kapital', check:c=>c.g.kapital>=150000},
-  {id:'survive24', ico:'📅', name:'Durchhalter', desc:'Überstehe alle 24 Monate', check:c=>c.finished},
+  {id:'unicorn', ico:'🦄', name:'Unicorn', desc:'Erreiche 200.000 € Kapital', check:c=>c.g.kapital>=200000},
+  {id:'survive36', ico:'📅', name:'Durchhalter', desc:'Überstehe alle 36 Monate', check:c=>c.finished},
+  {id:'rezession_held', ico:'🌧️', name:'Krisenfest', desc:'Mache in einer Rezession Gewinn', check:c=>!!c.g.stats.rezessionProfit},
   {id:'lowrisk', ico:'🛡️', name:'Auf Nummer sicher', desc:'Senke dein Risiko unter 5', check:c=>c.g.risk<5},
   {id:'rep100', ico:'⭐', name:'Makellos', desc:'Erreiche 100 Reputation', check:c=>c.g.rep>=100},
-  {id:'battle5', ico:'⚔️', name:'Kampfmaschine', desc:'Gewinne insgesamt 5 Battles', check:c=>meta.totalBattleWins>=5},
-  {id:'allinv', ico:'🛒', name:'Sammler', desc:'Besitze alle 12 Investitionen', check:c=>Object.keys(c.g.owned).length>=12},
-  {id:'prestige1', ico:'🌟', name:'Neuanfang', desc:'Verdiene deinen ersten Prestige-Stern', check:c=>meta.prestige>=1},
-  {id:'league1', ico:'👑', name:'Ligaspitze', desc:'Erreiche Liga-Rang 1', check:c=>meta.leagueRank<=1},
+  {id:'battle5', ico:'⚔️', name:'Kampfmaschine', desc:'Gewinne insgesamt 5 Battles', check:()=>meta.totalBattleWins>=5},
+  {id:'adpro', ico:'📣', name:'Werbeprofi', desc:'Starte 5 Kampagnen in einem Run', check:c=>c.g.stats.campaigns>=5},
+  {id:'schulden_null', ico:'🏦', name:'Schuldenfrei', desc:'Zahle einen Kredit komplett ab', check:c=>!!c.g.stats.loanPaid},
+  {id:'prestige1', ico:'🌟', name:'Neuanfang', desc:'Verdiene deinen ersten Prestige-Stern', check:()=>meta.prestige>=1},
+  {id:'league1', ico:'👑', name:'Ligaspitze', desc:'Erreiche Liga-Rang 1', check:()=>meta.leagueRank<=1},
+  {id:'hardcore_win', ico:'💀', name:'Hardcore-Legende', desc:'Überstehe 36 Monate im Hardcore-Modus', check:c=>c.finished && c.g.mode==='hardcore'},
 ];
 
-/* ---------- State ---------- */
-let game = null;
-let meta = null;
-let battle = null;
-let currentViewId = 'start';
-let backTarget = 'dashboard';
+/* ============================================================
+   STATE
+============================================================ */
+let game=null, meta=null, battle=null, backTarget='dashboard', pitchMode='normal';
 
 function defaultMeta(){
   return { ach:[], prestige:0, runs:0, bestKapital:0, bestRank:'—', leagueRank:6, rivalsBeaten:0, totalBattleWins:0 };
 }
-function prestigeStartBonus(){ return Math.min((meta?meta.prestige:0)*0.05, 0.75); }
-
-function defaultGame(){
-  const bonus = prestigeStartBonus();
-  return {
-    firma:'Meine Firma',
-    kapital: Math.round(5000*(1+bonus)),
-    startBonus: bonus,
-    umsatz:1200,
-    kosten:800,
-    rep:30,
-    risk:15,
-    kunden:50,
-    level:1,
-    monat:1,
-    owned:{},
-    over:false,
-    battleWins:0,
-    profitStreak:0,
-    missions:[],
-    missionsDone:[],
-    _lastTier:'Garagen-Startup',
-  };
-}
+function prestigeStartBonus(){ return Math.min((meta?meta.prestige:0)*0.04, 0.6); }
 
 /* ============================================================
    Persistence
@@ -550,46 +801,116 @@ function fmt(n){ return Math.round(n).toLocaleString('de-DE'); }
 function money(n){ return fmt(n)+' €'; }
 function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
 function setVal(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
+function tierFor(k){ let t=TIERS[0]; for(const x of TIERS){ if(k>=x.min) t=x; } return t; }
+function levelFor(k){ let l=1; for(let i=0;i<TIERS.length;i++){ if(k>=TIERS[i].min) l=i+1; } return l; }
+function nextGoalTier(k){ for(const t of TIERS){ if(k<t.min) return t; } return null; }
+function rnd(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-function tierFor(kapital){ let t=TIERS[0]; for(const x of TIERS){ if(kapital>=x.min) t=x; } return t; }
-function levelFor(kapital){ let lvl=1; for(let i=0;i<TIERS.length;i++){ if(kapital>=TIERS[i].min) lvl=i+1; } return lvl; }
-function nextGoal(k){ for(const t of TIERS){ if(k<t.min) return t; } return null; }
+/* ============================================================
+   PITCH-ANALYSE (die "KI")
+============================================================ */
+function analyzeIdea(text){
+  const t=' '+text.toLowerCase()+' ';
+  let best=null, bestScore=0, totalHits=0;
+  const hitWords=[];
+  for(const [ind, words] of Object.entries(IDEA_KEYWORDS)){
+    let score=0;
+    for(const w of words){ if(t.includes(w)){ score++; totalHits++; hitWords.push(w); } }
+    if(score>bestScore){ bestScore=score; best=ind; }
+  }
+  if(!best) best='handel'; // Fallback
+  // Zielgruppe
+  const aud=Object.assign({}, INDUSTRIES[best].audience);
+  for(const [k, words] of Object.entries(AUDIENCE_KEYWORDS)){
+    for(const w of words){ if(t.includes(w)){ aud[k]=clamp((aud[k]||0)+0.3,0,1); } }
+  }
+  // Sterne: Keyword-Treffer + Textlänge + Zielgruppen-Klarheit
+  let stars=1;
+  if(bestScore>=1) stars++;
+  if(bestScore>=3) stars++;
+  if(text.length>=60) stars++;
+  if(text.length>=140 || totalHits>=5) stars++;
+  stars=clamp(stars,1,5);
+  return { branche:best, audience:aud, stars, hits:bestScore, hitWords:hitWords.slice(0,4) };
+}
 
-/* effektiver Monatsumsatz JETZT (aktuelle Kunden) */
-function effUmsatzNow(g){ return g.umsatz + Math.round(g.kunden*1.5); }
-
-/* Projektion für den kommenden Monatsabschluss (ohne Zufall) */
-function computeMonth(g){
-  const newKunden = Math.round(g.rep*0.6 - g.risk*0.3);
-  const kundenAfter = Math.max(0, g.kunden + newKunden);
-  const kundenBonus = Math.round(kundenAfter*1.5);
-  const effUmsatz = g.umsatz + kundenBonus;
-  const gewinn = effUmsatz - g.kosten;
-  return { newKunden, kundenAfter, kundenBonus, effUmsatz, gewinn };
+function investorText(a, name){
+  const ind=INDUSTRIES[a.branche];
+  const intro=rnd([
+    `„${name}“ also. ${ind.ico} ${ind.name} – ein Markt, den ich gut kenne.`,
+    `Interessant. Du willst also in ${ind.ico} ${ind.name} durchstarten.`,
+    `${ind.ico} ${ind.name}? Mutig. Lass mich ehrlich sein.`,
+  ]);
+  let strength='';
+  if(a.stars>=4) strength=rnd([
+    'Deine Idee ist klar und hat einen erkennbaren Fokus – das gefällt mir.',
+    'Du weißt, was du willst und für wen. Das ist mehr, als die meisten Gründer mitbringen.',
+  ]);
+  else if(a.stars>=3) strength='Die Richtung stimmt, aber dein Pitch könnte schärfer sein.';
+  else strength=rnd([
+    'Ehrlich? Dein Pitch ist noch ziemlich vage. Ich erkenne kaum, was dich besonders macht.',
+    'Da fehlt mir der Fokus. Wer genau soll das kaufen – und warum bei dir?',
+  ]);
+  const audHint = a.audience.lokal>0.7 ? 'Deine Zielgruppe ist stark lokal – wähle deine Werbung entsprechend!'
+    : a.audience.online>0.8 ? 'Deine Kundschaft lebt online – dort musst du sichtbar sein.'
+    : a.audience.business>0.5 ? 'Geschäftskunden erreichst du nicht über TikTok – denk dran.'
+    : 'Deine Zielgruppe ist gemischt – teste, welche Werbung wirklich wirkt.';
+  return `${intro} ${strength} Aber Vorsicht: ${ind.weakness} ${audHint}`;
 }
 
 /* ============================================================
-   View management
+   RUN-ERSTELLUNG
+============================================================ */
+function createRun(name, ideaText, mode){
+  const a=analyzeIdea(ideaText);
+  const ind=INDUSTRIES[a.branche];
+  const bonus=prestigeStartBonus();
+  const hc=mode==='hardcore';
+  const baseCap=hc?2500:4000;
+  const kapital=Math.round(baseCap*(1+bonus)*(1+a.stars*0.04));
+  const rivalName=rnd(ind.rivals);
+  return {
+    firma:name||'Meine Firma',
+    idee:ideaText,
+    branche:a.branche,
+    audience:a.audience,
+    pitchStars:a.stars,
+    mode:mode,
+    kapital, startBonus:bonus,
+    umsatz:Math.round(ind.baseU*(hc?0.9:1)),
+    kosten:Math.round(ind.baseK*(hc?1.05:1)),
+    rep:20+a.stars*3,
+    risk:hc?20:15,
+    kunden:30+a.stars*6,
+    level:1, monat:1, over:false,
+    owned:{}, pending:[], loans:[], campaigns:[], channelUse:{},
+    battleWins:0, profitStreak:0,
+    missions:MISSIONS.slice(0,3).map(m=>m.id), missionsDone:[],
+    market:{konjunktur:0, trendDir:0, trendText:null, trendMonths:0},
+    rival:{name:rivalName, ico:ind.rivalIco, staerke:hc?6:4, share:50, lastAction:null},
+    director:{profile:{risk:0, spar:0, quality:0, marketing:0}, phase:'ruhe', phaseLeft:3, usedDecisions:[], delayed:[], flags:{}},
+    news:[`📰 ${name||'Deine Firma'} wurde gegründet! ${ind.name}-Szene aufgepasst.`],
+    stats:{campaigns:0, fitBuys:0, loanPaid:false, rezessionProfit:false},
+    _lastTier:'Garagen-Startup',
+  };
+}
+
+/* ============================================================
+   Views
 ============================================================ */
 function showView(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  currentViewId = id;
   window.scrollTo(0,0);
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on', b.dataset.v===id));
 }
 function showNav(on){ document.getElementById('nav').classList.toggle('hidden', !on); }
 function navTo(id){ showView(id); if(id==='shop') renderShop(); if(id==='dashboard') renderDashboard(); }
-
-function openLearn(from){ backTarget=from||'dashboard'; showView('learn'); showNav(!!game); }
-function backFromLearn(){ if(game){ showView(backTarget==='start'?'start':'dashboard'); showNav(backTarget!=='start'); if(backTarget!=='start') renderDashboard(); } else { showStart(); } }
-
+function openLearn(from){ backTarget=from||'dashboard'; showView('learn'); showNav(!!game && backTarget!=='start'); }
+function backFromLearn(){ if(game && backTarget!=='start'){ showView('dashboard'); showNav(true); renderDashboard(); } else showStart(); }
 function openAchievements(from){ backTarget=from||'dashboard'; renderAchievements(); showView('achievements'); showNav(!!game && backTarget!=='start'); }
-function backFromAch(){ if(game && backTarget!=='start'){ showView('dashboard'); showNav(true); renderDashboard(); } else { showStart(); } }
+function backFromAch(){ if(game && backTarget!=='start'){ showView('dashboard'); showNav(true); renderDashboard(); } else showStart(); }
 
-/* ============================================================
-   Start screen
-============================================================ */
 function renderStart(){
   const el=document.getElementById('start-stats');
   const bonus=Math.round(prestigeStartBonus()*100);
@@ -603,123 +924,466 @@ function renderStart(){
 function showStart(){ renderStart(); showView('start'); showNav(false); }
 
 /* ============================================================
-   Game flow
+   Pitch flow
 ============================================================ */
-function newGame(){
-  game = defaultGame();
-  game.missions = MISSIONS.slice(0,3).map(m=>m.id);
+function openPitch(){
+  pitchMode='normal';
+  document.getElementById('mode-normal').classList.add('sel');
+  document.getElementById('mode-hardcore').classList.remove('sel');
+  showView('pitch'); showNav(false);
+}
+function pickMode(m){
+  pitchMode=m;
+  document.getElementById('mode-normal').classList.toggle('sel', m==='normal');
+  document.getElementById('mode-hardcore').classList.toggle('sel', m==='hardcore');
+}
+function submitPitch(){
+  const name=document.getElementById('p-name').value.trim();
+  const idea=document.getElementById('p-idea').value.trim();
+  if(!name){ toast('🏢 Gib deiner Firma einen Namen!','bad'); return; }
+  if(idea.length<10){ toast('💡 Beschreibe deine Idee etwas genauer!','bad'); return; }
+  const a=analyzeIdea(idea);
+  const ind=INDUSTRIES[a.branche];
+  const starStr='⭐'.repeat(a.stars)+'☆'.repeat(5-a.stars);
+  modal(`<div class="big-emoji">👩‍💼</div><h2>Victoria Venture</h2>
+    <div class="stars">${starStr}</div>
+    <div class="investor-quote">${investorText(a, name)}</div>
+    <div class="rank-line">Erkannte Branche: <b>${ind.ico} ${ind.name}</b><br>
+    Startkapital: <b>${money(Math.round((pitchMode==='hardcore'?2500:4000)*(1+prestigeStartBonus())*(1+a.stars*0.04)))}</b> · Modus: <b>${pitchMode==='hardcore'?'💀 Hardcore':'🎯 Normal'}</b></div>
+    <button class="btn green" onclick="closeModal();startRun()">🚀 Loslegen!</button>
+    <div style="height:10px"></div>
+    <button class="btn ghost" onclick="closeModal()">✏️ Pitch überarbeiten</button>`);
+}
+function startRun(){
+  const name=document.getElementById('p-name').value.trim();
+  const idea=document.getElementById('p-idea').value.trim();
+  game=createRun(name, idea, pitchMode);
   save();
   showView('dashboard'); showNav(true);
   renderDashboard();
-  toast('🚀 Viel Erfolg mit deiner neuen Firma!','good');
+  toast(`🚀 ${game.firma} ist am Start – viel Erfolg!`,'good');
   if(game.startBonus>0) toast(`🌟 Prestige-Bonus: +${Math.round(game.startBonus*100)}% Startkapital!`,'good');
+  checkAchievements();
 }
 function continueGame(){
   if(!game) game=load();
-  if(!game){ newGame(); return; }
+  if(!game){ openPitch(); return; }
   showView('dashboard'); showNav(true);
   renderDashboard();
 }
 function confirmReset(){
-  modal(`<div class="big-emoji">🔄</div><h2>Neu starten?</h2>
-    <p>Dein aktueller Spielstand wird zurückgesetzt und du beginnst neu.<br><b>Erfolge, Prestige und Rekorde bleiben erhalten.</b></p>
-    <button class="btn red" onclick="doReset()">Ja, neu starten</button>
+  modal(`<div class="big-emoji">🔄</div><h2>Neu gründen?</h2>
+    <p>Dein aktueller Spielstand wird beendet und du pitchst eine neue Idee.<br><b>Erfolge, Prestige und Rekorde bleiben erhalten.</b></p>
+    <button class="btn red" onclick="closeModal();openPitch()">Ja, neue Idee pitchen</button>
     <div style="height:10px"></div>
     <button class="btn ghost" onclick="closeModal()">Abbrechen</button>`);
 }
-function doReset(){ closeModal(); newGame(); }
-
 function confirmHardReset(){
   modal(`<div class="big-emoji">🗑️</div><h2>Alles zurücksetzen?</h2>
-    <p>Das löscht <b>wirklich alles</b>: Spielstand, Erfolge, Prestige, Rekorde und Liga-Rang. Das kann nicht rückgängig gemacht werden.</p>
+    <p>Das löscht <b>wirklich alles</b>: Spielstand, Erfolge, Prestige, Rekorde und Liga-Rang.</p>
     <button class="btn red" onclick="hardReset()">Ja, alles löschen</button>
     <div style="height:10px"></div>
     <button class="btn ghost" onclick="closeModal()">Abbrechen</button>`);
 }
 function hardReset(){
-  localStorage.removeItem(SAVE_KEY);
-  localStorage.removeItem(META_KEY);
-  meta = defaultMeta(); saveMeta();
-  game = null;
-  closeModal();
-  showStart();
+  localStorage.removeItem(SAVE_KEY); localStorage.removeItem(META_KEY);
+  meta=defaultMeta(); saveMeta(); game=null; closeModal(); showStart();
 }
-
 function goToShop(){ showView('shop'); renderShop(); }
 function updateAchCount(){ setVal('db-ach-count', meta.ach.length); }
 
 /* ============================================================
-   Dashboard
+   Monats-Berechnung
+============================================================ */
+function konjMult(g){
+  let m=1+0.2*g.market.konjunktur;
+  if(g.market.trendMonths>0) m*=(1+0.12*g.market.trendDir);
+  return m;
+}
+function scaleKosten(g){ return (levelFor(g.kapital)-1)*140; }
+function loanRates(g){ return g.loans.reduce((s,l)=>s+l.rate,0); }
+function campaignCost(g){ return g.campaigns.reduce((s,c)=>s+c.cost,0); }
+function totalKosten(g){ return g.kosten + scaleKosten(g) + loanRates(g) + campaignCost(g); }
+function effUmsatzNow(g){ return Math.round((g.umsatz + Math.round(g.kunden*1.2)) * konjMult(g)); }
+
+function channelEffectiveness(g, ch){
+  // Zielgruppen-Fit: gewichtetes Skalarprodukt
+  let dot=0, norm=0;
+  for(const k of ['jung','erwachsen','lokal','online','business']){
+    dot += (ch.audience[k]||0)*(g.audience[k]||0);
+    norm += (g.audience[k]||0);
+  }
+  const fit = norm>0 ? dot/norm : 0.5; // 0..1
+  const used=g.channelUse[ch.id]||0;
+  const dim=Math.pow(0.7, used);
+  return { fit, dim, total: fit*dim };
+}
+
+/* ============================================================
+   NEXT MONTH – der große Loop
+============================================================ */
+function nextMonth(){
+  if(game.over) return;
+  const g=game, hc=g.mode==='hardcore';
+  const startKapital=g.kapital;
+  const report={lines:[], events:[], ads:[], rival:null, coach:'', pending:[]};
+
+  /* 1. Ausstehende Investitionen werden wirksam */
+  for(const p of g.pending){
+    g.umsatz=Math.max(0,g.umsatz+p.umsatz);
+    g.kosten=Math.max(0,g.kosten+p.kosten);
+    report.pending.push(`🧱 ${p.name} wirkt ab jetzt (${p.fitLabel})`);
+  }
+  g.pending=[];
+
+  /* 2. Markt bewegt sich */
+  g.market.konjunktur=clamp(g.market.konjunktur+(Math.random()*0.5-0.25),-1,1);
+  if(g.market.trendMonths>0){ g.market.trendMonths--; if(g.market.trendMonths===0) g.market.trendText=null; }
+  else if(Math.random()<0.22){
+    const tr=rnd(INDUSTRIES[g.branche].trends);
+    g.market.trendText=tr[0]; g.market.trendDir=tr[1]; g.market.trendMonths=2+Math.floor(Math.random()*3);
+    pushNews(`📊 ${tr[0]}`);
+  }
+  const kMult=konjMult(g);
+
+  /* 3. Kampagnen laufen */
+  let adKunden=0;
+  for(const c of g.campaigns){
+    const gained=Math.max(1, Math.round(c.kundenBase*c.eff*kMult*(0.85+Math.random()*0.3)));
+    adKunden+=gained;
+    c.monthsLeft--;
+    const chDef=AD_CHANNELS.find(x=>x.id===c.channelId);
+    const verdict = c.eff>=0.55?'✅ wirkt stark':(c.eff>=0.3?'🟡 wirkt mittel':'❌ verpufft fast');
+    report.ads.push(`${chDef.ico} ${chDef.name}: +${gained} Kunden für ${money(c.cost)} (${verdict})`);
+    if(c.eff<0.3 && !g.director.flags.adWaste){ g.director.flags.adWaste=true; }
+  }
+  g.campaigns=g.campaigns.filter(c=>c.monthsLeft>0);
+
+  /* 4. Konkurrent handelt */
+  const rival=g.rival;
+  let rivalPressure=0;
+  const rollR=Math.random();
+  if(rollR<0.3){
+    rival.lastAction='preiskampf';
+    rivalPressure=Math.round(rival.staerke*(hc?3:2));
+    report.rival=`🏷️ ${rival.name} startet einen Preiskampf – du verlierst ${rivalPressure} Kunden!`;
+  } else if(rollR<0.55){
+    rival.lastAction='werbung';
+    const noAds=g.campaigns.length===0 && adKunden===0;
+    rivalPressure=Math.round(rival.staerke*(noAds?(hc?4:3):1));
+    report.rival=`📣 ${rival.name} fährt eine Werbeoffensive${noAds?' – und du bist unsichtbar! ':' – '}(-${rivalPressure} Kunden)`;
+  } else if(rollR<0.65){
+    rival.lastAction='skandal';
+    rival.staerke=Math.max(1,rival.staerke-1);
+    const won=Math.round(5+Math.random()*10);
+    g.kunden+=won;
+    report.rival=`😱 ${rival.name} hat einen Skandal! ${won} Kunden wechseln zu dir.`;
+  } else {
+    rival.lastAction='ruhe';
+    if(Math.random()<0.4) rival.staerke=Math.min(10,rival.staerke+1);
+    report.rival=`😐 ${rival.name} rüstet im Hintergrund auf.`;
+  }
+  pushNews(`📰 ${report.rival}`);
+
+  /* 5. Kundenbewegung */
+  const churn=Math.round(g.kunden*0.03) + (g.risk>40?Math.round(g.kunden*0.02):0);
+  const organic=Math.round(g.rep*0.35 - g.risk*0.3);
+  const newKunden=organic + adKunden - rivalPressure - churn;
+  g.kunden=Math.max(0, g.kunden+newKunden);
+
+  /* 6. Finanzen */
+  const kundenBonus=Math.round(g.kunden*1.2);
+  const effUmsatz=Math.round((g.umsatz+kundenBonus)*kMult);
+  const kosten=totalKosten(g);
+  const gewinn=effUmsatz-kosten;
+  g.kapital+=gewinn;
+  g.profitStreak=gewinn>0?(g.profitStreak||0)+1:0;
+  if(g.market.konjunktur<-0.5 && gewinn>0) g.stats.rezessionProfit=true;
+
+  /* 7. Kredite tilgen */
+  for(const l of g.loans){ l.monthsLeft--; }
+  const paidOff=g.loans.filter(l=>l.monthsLeft<=0);
+  if(paidOff.length){ g.stats.loanPaid=true; report.events.push({type:'good', text:'🏦 Ein Kredit ist komplett abbezahlt – die Rate entfällt!'}); }
+  g.loans=g.loans.filter(l=>l.monthsLeft>0);
+
+  /* 8. Spätfolgen fällig? */
+  const due=g.director.delayed.filter(d=>d.due<=g.monat);
+  g.director.delayed=g.director.delayed.filter(d=>d.due>g.monat);
+  for(const d of due){
+    if(d.chance!==undefined && Math.random()>d.chance){
+      if(d.failText){ report.events.push({type:'info', text:'🍀 '+d.failText}); if(d.failFx) applyFx(d.failFx); }
+      continue;
+    }
+    applyFx(d.fx);
+    report.events.push({type:d.fx.kapital>0||d.fx.umsatz>0||d.fx.kunden>0?'good':'bad', text:'🕰️ '+d.text});
+    pushNews(`📰 ${d.text}`);
+  }
+
+  /* 9. KI-Direktor: Phase + Event */
+  const dir=g.director;
+  dir.phaseLeft--;
+  if(dir.phaseLeft<=0){
+    const order={ruhe:'aufbau', aufbau:'krise', krise:'erholung', erholung:'ruhe'};
+    dir.phase=order[dir.phase]||'ruhe';
+    dir.phaseLeft=2+Math.floor(Math.random()*3);
+  }
+  const eventChance = dir.phase==='krise' ? 0.75 : dir.phase==='ruhe' ? 0.25 : 0.45;
+  if(Math.random()<eventChance){
+    const pool=DIRECTOR_EVENTS.map(e=>({e, w:Math.max(0,e.weight(g,dir))}))
+      .filter(x=>x.w>0)
+      .filter(x=>dir.phase==='krise' ? x.e.type==='bad' : true)
+      .filter(x=>(hc||dir.phase!=='krise') ? true : x.e.type!=='bad' || Math.random()<0.7);
+    const totalW=pool.reduce((s,x)=>s+x.w,0);
+    if(totalW>0){
+      let r=Math.random()*totalW, chosen=pool[0];
+      for(const x of pool){ r-=x.w; if(r<=0){ chosen=x; break; } }
+      const ev=chosen.e;
+      let fx=ev.fxFn?ev.fxFn(g):ev.fx;
+      if(hc && ev.type==='bad'){ fx=Object.assign({},fx); if(fx.kapital) fx.kapital=Math.round(fx.kapital*1.4); if(fx.rep) fx.rep=Math.round(fx.rep*1.3); }
+      applyFx(fx);
+      report.events.push({type:ev.type, text:ev.text(g)});
+    }
+  }
+
+  /* 10. Risiko-Eskalation & Decay */
+  if(g.risk>50){ g.risk=clamp(g.risk+1,0,100); } else { g.risk=clamp(g.risk-1,0,100); }
+  g.rep=clamp(g.rep-(hc?1.5:1),0,100);
+
+  g.monat++;
+  g.level=levelFor(g.kapital);
+
+  /* 11. Coach-Kommentar */
+  report.coach=coachComment(g, effUmsatz, kosten, gewinn);
+
+  /* 12. Meilensteine */
+  if(g.monat-1===12) report.events.push({type:'good', text:'🎉 Meilenstein: 12 Monate überlebt! Die kritischste Phase ist geschafft.'});
+  if(g.monat-1===24) report.events.push({type:'good', text:'🎉 Meilenstein: 2 Jahre! Jetzt zählt der Endspurt zur Bewertung.'});
+
+  checkAchievements({profit:gewinn});
+  checkMissions();
+
+  if(g.kapital<=0){ g.over=true; save(); return endGame(false); }
+  if(g.monat>MAX_MONTHS){ g.over=true; save(); return endGame(true); }
+
+  /* 13. Nächste Entscheidung vorbereiten */
+  g.pendingDecision=pickDecision();
+
+  save();
+  renderReport(startKapital, effUmsatz, kosten, gewinn, newKunden, kundenBonus, report);
+}
+
+function applyFx(fx){
+  if(!fx) return;
+  const g=game;
+  if(fx.kapital) g.kapital+=fx.kapital;
+  if(fx.umsatz) g.umsatz=Math.max(0,g.umsatz+fx.umsatz);
+  if(fx.kosten) g.kosten=Math.max(0,g.kosten+fx.kosten);
+  if(fx.rep) g.rep=clamp(g.rep+fx.rep,0,100);
+  if(fx.risk) g.risk=clamp(g.risk+fx.risk,0,100);
+  if(fx.kunden) g.kunden=Math.max(0,g.kunden+fx.kunden);
+  if(fx.rivalStaerke) g.rival.staerke=clamp(g.rival.staerke+fx.rivalStaerke,1,10);
+}
+
+function pushNews(t){
+  game.news.unshift(t);
+  game.news=game.news.slice(0,5);
+}
+
+function coachComment(g, umsatz, kosten, gewinn){
+  const ratio=kosten/Math.max(1,umsatz);
+  if(gewinn<0 && g.loans.length>0) return '🧠 <b>KI-Coach:</b> Verlust + Kreditraten ist eine gefährliche Mischung. Senke jetzt Kosten, bevor die Bank nervös wird.';
+  if(gewinn<0) return '🧠 <b>KI-Coach:</b> Du machst Verlust. Prüfe: Welche Kosten bringen dir keinen Umsatz? Weg damit.';
+  if(ratio>0.9) return '🧠 <b>KI-Coach:</b> Deine Marge ist hauchdünn. Ein einziger schlechter Monat wirft dich ins Minus.';
+  if(g.risk>50) return '🧠 <b>KI-Coach:</b> Dein Risiko ist kritisch hoch – und es eskaliert von allein weiter. Investiere in Sicherheit!';
+  if(g.campaigns.length===0 && g.kunden<150) return '🧠 <b>KI-Coach:</b> Ohne Werbung wächst du kaum – und dein Rivale nutzt jede Lücke.';
+  if(g.rep<30) return '🧠 <b>KI-Coach:</b> Deine Reputation ist schwach. Kunden kommen nur, wenn sie dir vertrauen.';
+  if(gewinn>0 && g.profitStreak>=3) return `🧠 <b>KI-Coach:</b> ${g.profitStreak} Gewinn-Monate in Folge – stark! Jetzt nicht übermütig werden.`;
+  return '🧠 <b>KI-Coach:</b> Solider Monat. Denk daran: Wachstum braucht Umsatz UND kontrollierte Kosten.';
+}
+
+/* ============================================================
+   ENTSCHEIDUNGEN
+============================================================ */
+function pickDecision(){
+  const g=game;
+  const pool=DECISIONS.filter(d=>!g.director.usedDecisions.includes(d.id) && (!d.cond || d.cond(g)));
+  if(!pool.length || Math.random()<0.15) return null;
+  return rnd(pool).id;
+}
+function showDecision(id){
+  const d=DECISIONS.find(x=>x.id===id);
+  if(!d){ return; }
+  game.director.usedDecisions.push(id);
+  let html=`<div class="big-emoji">🃏</div><h2>Entscheidung</h2><p style="font-size:15px;color:var(--txt)">${d.text}</p>`;
+  d.opts.forEach((o,i)=>{
+    html+=`<button class="decision-opt" onclick="decide('${id}',${i})">${o.t}<span class="d-note">${o.note||''}</span></button>`;
+  });
+  modal(html);
+}
+function decide(id, idx){
+  const d=DECISIONS.find(x=>x.id===id);
+  const o=d.opts[idx];
+  closeModal();
+  applyFx(o.fx);
+  if(o.flag) game.director.flags[o.flag]=true;
+  // Profil-Tracking
+  const p=game.director.profile;
+  if(o.fx && (o.fx.risk>0 || (o.fx.kapital&&o.fx.kapital>500))) p.risk++;
+  if(o.fx && o.fx.kosten<0) p.spar++;
+  if(o.fx && o.fx.rep>2) p.quality++;
+  if(o.random){
+    const r=Math.random(); let acc=0;
+    for(const out of o.random){
+      acc+=out.p;
+      if(r<=acc){ applyFx(out.fx); toast(out.text, out.fx.rep>0||out.fx.kunden>0?'good':'bad'); pushNews(`📰 ${out.text}`); break; }
+    }
+  }
+  if(o.delayed){
+    game.director.delayed.push({due:game.monat+o.delayed.m, text:o.delayed.text, fx:o.delayed.fx, chance:o.delayed.chance, failText:o.delayed.failText, failFx:o.delayed.failFx});
+  }
+  save();
+  renderDashboard();
+  checkMissions();
+}
+
+/* ============================================================
+   REPORT
+============================================================ */
+function renderReport(startK, umsatz, kosten, gewinn, newKunden, kundenBonus, rep){
+  const g=game;
+  document.getElementById('report-month').textContent=`Monat ${g.monat-1}`;
+  const body=document.getElementById('report-body');
+  const diff=g.kapital-startK;
+  let html=`
+    <div class="company-vis" style="margin-bottom:14px">
+      <div class="company-emoji">${diff>=0?'📈':'📉'}</div>
+      <div class="company-name">${diff>=0?'So hast du diesen Monat Geld verdient':'Dieser Monat hat dich Geld gekostet'}</div>
+      <div class="company-tier">${diff>=0?'Weiter so – aber bleib wachsam.':'Analysiere unten, wo es klemmt.'}</div>
+    </div>`;
+  if(rep.pending.length) html+=`<div class="event-box info">${rep.pending.join('<br>')}</div>`;
+  html+=`
+    <div class="report-line"><span class="k">📈 Umsatz (Kunden & Markt eingerechnet)</span><span class="v pos">+${money(umsatz)}</span></div>
+    <div class="report-line"><span class="k">↳ davon durch ${fmt(g.kunden)} Kunden</span><span class="v pos">+${money(Math.round(kundenBonus*konjMult(g)))}</span></div>
+    <div class="report-line"><span class="k">📉 Kosten gesamt</span><span class="v neg">-${money(kosten)}</span></div>`;
+  const sk=scaleKosten(g), lr=loanRates(g), cc=campaignCost(g);
+  if(sk) html+=`<div class="report-line"><span class="k">↳ Betriebskosten (Firmengröße)</span><span class="v neg">-${money(sk)}</span></div>`;
+  if(lr) html+=`<div class="report-line"><span class="k">↳ Kreditraten</span><span class="v neg">-${money(lr)}</span></div>`;
+  if(cc) html+=`<div class="report-line"><span class="k">↳ Werbekampagnen</span><span class="v neg">-${money(cc)}</span></div>`;
+  html+=`
+    <div class="report-line"><span class="k">💵 Gewinn (Umsatz − Kosten)</span><span class="v ${gewinn>=0?'pos':'neg'}">${gewinn>=0?'+':''}${money(gewinn)}</span></div>
+    <div class="report-line"><span class="k">👥 Kundenbilanz</span><span class="v ${newKunden>=0?'pos':'neg'}">${newKunden>=0?'+':''}${fmt(newKunden)}</span></div>`;
+  if(rep.ads.length){
+    html+=`<div class="section-title" style="margin-top:16px">📣 Deine Werbung</div>`;
+    rep.ads.forEach(a=>{ html+=`<div class="event-box info" style="margin:8px 0">${a}</div>`; });
+  }
+  if(rep.rival) html+=`<div class="section-title" style="margin-top:16px">🥊 Konkurrenz</div><div class="event-box" style="margin:8px 0">${rep.rival}</div>`;
+  rep.events.forEach(e=>{ html+=`<div class="event-box ${e.type==='good'?'good':e.type==='info'?'info':''}">${e.text}</div>`; });
+  html+=`<div class="coach-box">${rep.coach}</div>`;
+  html+=`
+    <div class="report-line"><span class="k">💰 Kapital neu</span><span class="v">${money(g.kapital)}</span></div>
+    <div class="report-line"><span class="k">📊 Veränderung gesamt</span><span class="v ${diff>=0?'pos':'neg'}">${diff>=0?'+':''}${money(diff)}</span></div>
+    <div style="height:20px"></div>
+    <button class="btn green" onclick="afterReport()">✅ Weiter</button>`;
+  body.innerHTML=html;
+  showView('report');
+  if(diff<0) body.querySelector('.company-vis').classList.add('shake');
+}
+function afterReport(){
+  showView('dashboard'); renderDashboard();
+  const t=tierFor(game.kapital);
+  if(game._lastTier!==t.name){
+    game._lastTier=t.name;
+    if(t.min>0){ toast(`${t.emoji} Aufstieg: ${t.name}!`,'good'); confetti(); }
+    save();
+  }
+  if(game.pendingDecision){
+    const id=game.pendingDecision;
+    game.pendingDecision=null;
+    save();
+    setTimeout(()=>showDecision(id), 450);
+  }
+}
+
+/* ============================================================
+   DASHBOARD
 ============================================================ */
 function renderDashboard(){
-  if(!game) return;
-  game.level = levelFor(game.kapital);
-  const effU = effUmsatzNow(game);
-  const gewinn = effU - game.kosten;
-  const t = tierFor(game.kapital);
+  const g=game; if(!g) return;
+  g.level=levelFor(g.kapital);
+  const effU=effUmsatzNow(g);
+  const kost=totalKosten(g);
+  const gewinn=effU-kost;
+  const t=tierFor(g.kapital);
+  const ind=INDUSTRIES[g.branche];
 
-  document.getElementById('db-firma').textContent = game.firma;
-  document.getElementById('db-month').textContent = `Monat ${game.monat}/${MAX_MONTHS}`;
-  document.getElementById('db-emoji').textContent = t.emoji;
-  document.getElementById('db-name').textContent = t.name;
-  document.getElementById('db-tier').textContent = `Level ${game.level} · ${t.desc}`;
-  document.getElementById('db-skyline').textContent = t.sky;
+  document.getElementById('db-firma').textContent=g.firma;
+  document.getElementById('db-month').textContent=`Monat ${g.monat}/${MAX_MONTHS}`;
+  document.getElementById('db-emoji').textContent=t.emoji;
+  document.getElementById('db-name').textContent=`${t.name} · ${ind.ico} ${ind.name}`;
+  document.getElementById('db-tier').textContent=`Level ${g.level}${g.mode==='hardcore'?' · 💀 Hardcore':''} · Pitch: ${'⭐'.repeat(g.pitchStars)}`;
+  document.getElementById('db-skyline').textContent=t.sky;
+  document.getElementById('btn-rival').textContent=g.rival.name;
 
-  setVal('s-kapital', money(game.kapital));
-  setVal('s-umsatz', '+'+money(effU));
-  setVal('s-kosten', '-'+money(game.kosten));
+  // Markt-Panel
+  const kj=g.market.konjunktur;
+  const kjIco=kj>0.35?'☀️':kj>-0.35?'⛅':'🌧️';
+  const kjTxt=kj>0.35?'Boom':kj>-0.35?'Stabil':'Rezession';
+  const trIco=g.market.trendMonths>0?(g.market.trendDir>0?'📈':'📉'):'➖';
+  const trTxt=g.market.trendMonths>0?(g.market.trendDir>0?'Rückenwind':'Gegenwind'):'Kein Trend';
+  document.getElementById('market-panel').innerHTML=`
+    <div class="mkt-box"><div class="mk-ico">${kjIco}</div><div class="mk-l">KONJUNKTUR</div><div class="mk-v">${kjTxt}</div></div>
+    <div class="mkt-box"><div class="mk-ico">${trIco}</div><div class="mk-l">BRANCHEN-TREND</div><div class="mk-v">${trTxt}</div></div>
+    <div class="mkt-box"><div class="mk-ico">${g.rival.ico}</div><div class="mk-l">${g.rival.name.toUpperCase().slice(0,12)}</div><div class="mk-v">Stärke ${g.rival.staerke}/10</div></div>`;
+  document.getElementById('news-ticker').innerHTML=game.news[0]||'📰 Alles ruhig...';
+
+  setVal('s-kapital', money(g.kapital));
+  setVal('s-umsatz','+'+money(effU));
+  setVal('s-kosten','-'+money(kost));
+  const kd=[]; if(loanRates(g)) kd.push('inkl. Kredit'); if(campaignCost(g)) kd.push('inkl. Werbung'); if(scaleKosten(g)) kd.push('inkl. Betrieb');
+  setVal('s-kosten-note', kd.join(' · '));
   const gEl=document.getElementById('s-gewinn');
   gEl.textContent=(gewinn>=0?'+':'')+money(gewinn);
   gEl.className='val '+(gewinn>=0?'pos':'neg');
-  setVal('s-kunden', fmt(game.kunden));
-  setVal('s-rep', Math.round(game.rep));
-  setVal('s-risk', Math.round(game.risk));
-  document.getElementById('bar-rep').style.width = clamp(game.rep,0,100)+'%';
-  document.getElementById('bar-risk').style.width = clamp(game.risk,0,100)+'%';
-  document.getElementById('shop-kapital').textContent = money(game.kapital);
+  setVal('s-kunden', fmt(g.kunden));
+  setVal('s-rep', Math.round(g.rep));
+  setVal('s-risk', Math.round(g.risk));
+  document.getElementById('bar-rep').style.width=clamp(g.rep,0,100)+'%';
+  document.getElementById('bar-risk').style.width=clamp(g.risk,0,100)+'%';
+  document.getElementById('shop-kapital').textContent=money(g.kapital);
   updateAchCount();
 
-  renderGoal();
-  renderMoneyMath(effU, gewinn);
-  renderMissions();
-
-  // Monat-Prognose (identisch zur Gewinn-Karte oben, damit die Zahlen konsistent sind)
-  document.getElementById('btn-nextmonth').innerHTML =
-    `⏭️ Monat abschließen<span class="preview">Erwarteter Gewinn: ${gewinn>=0?'+':''}${money(gewinn)}</span>`;
-
+  renderGoal(); renderMoneyMath(effU,kost,gewinn); renderMissions();
+  document.getElementById('btn-nextmonth').innerHTML=
+    `⏭️ Monat abschließen<span class="preview">Erwarteter Gewinn: ${gewinn>=0?'+':''}${money(gewinn)} · ohne Überraschungen</span>`;
   save();
 }
-
 function renderGoal(){
   const el=document.getElementById('goal-card');
-  const next=nextGoal(game.kapital);
-  if(!next){ el.innerHTML=`<div class="goal-top"><span>🦄 Höchste Stufe erreicht!</span></div><div class="goal-sub">Du bist ein Unicorn – baue dein Vermögen weiter aus und stelle einen Rekord auf!</div>`; return; }
+  const next=nextGoalTier(game.kapital);
+  if(!next){ el.innerHTML=`<div class="goal-top"><span>🦄 Höchste Stufe erreicht!</span></div><div class="goal-sub">Du bist ein Unicorn – jetzt zählt nur noch der Rekord!</div>`; return; }
   const curMin=tierFor(game.kapital).min;
   const pct=clamp((game.kapital-curMin)/(next.min-curMin)*100,0,100);
   el.innerHTML=`<div class="goal-top"><span>🎯 Nächstes Ziel: ${next.name}</span><span class="goal-amt">${money(next.min)}</span></div>
     <div class="bar-wrap"><div class="bar lvl" style="width:${pct}%"></div></div>
     <div class="goal-sub">Noch ${money(Math.max(0,next.min-game.kapital))} bis zum Aufstieg</div>`;
 }
-
-function renderMoneyMath(effU, gewinn){
-  const el=document.getElementById('money-math');
-  el.innerHTML=`
+function renderMoneyMath(effU,kost,gewinn){
+  document.getElementById('money-math').innerHTML=`
     <div class="mm-row">
       <div class="mm-item"><span class="mm-l">Umsatz</span><span class="mm-v pos">+${money(effU)}</span></div>
       <span class="mm-op">−</span>
-      <div class="mm-item"><span class="mm-l">Kosten</span><span class="mm-v neg">${money(game.kosten)}</span></div>
+      <div class="mm-item"><span class="mm-l">Kosten</span><span class="mm-v neg">${money(kost)}</span></div>
       <span class="mm-op">=</span>
       <div class="mm-item"><span class="mm-l">Gewinn</span><span class="mm-v ${gewinn>=0?'pos':'neg'}">${gewinn>=0?'+':''}${money(gewinn)}</span></div>
     </div>
-    <p class="mm-note">💡 Du verdienst Geld, wenn dein <b>Umsatz höher ist als deine Kosten</b>. Der Gewinn wird jeden Monat deinem Kapital gutgeschrieben.</p>
-    ${gewinn<0?'<p class="mm-warn">⚠️ Du machst gerade Verlust! Senke deine Kosten oder steigere den Umsatz.</p>':''}`;
+    <p class="mm-note">💡 Du verdienst Geld, wenn dein <b>Umsatz höher ist als deine Kosten</b>. Kosten enthalten auch Kreditraten, Werbung und Betriebskosten deiner Firmengröße.</p>
+    ${gewinn<0?'<p class="mm-warn">⚠️ Du machst gerade Verlust! Senke Kosten (Kredite? Werbung?) oder steigere den Umsatz.</p>':''}`;
 }
-
 function renderMissions(){
   const el=document.getElementById('mission-card');
   const active=game.missions.map(id=>MISSIONS.find(m=>m.id===id)).filter(Boolean);
   let html='<div class="mc-head">🎯 Deine Missionen</div>';
-  if(!active.length){ html+='<div class="mc-empty">Alle Missionen erledigt! 🎉 Stark gemacht.</div>'; }
+  if(!active.length) html+='<div class="mc-empty">Alle Missionen erledigt! 🎉</div>';
   active.forEach(m=>{
     const p=m.prog(game), pct=clamp(p/m.goal*100,0,100), done=m.check(game);
     const rew=m.reward.kapital?`+${money(m.reward.kapital)}`:`+${m.reward.rep} ⭐`;
@@ -728,7 +1392,6 @@ function renderMissions(){
   });
   el.innerHTML=html;
 }
-
 function pickNextMission(){
   const m=MISSIONS.find(x=>!game.missions.includes(x.id)&&!game.missionsDone.includes(x.id));
   return m?m.id:null;
@@ -751,17 +1414,18 @@ function checkMissions(){
 }
 
 /* ============================================================
-   Achievements
+   ACHIEVEMENTS
 ============================================================ */
 function checkAchievements(extra){
-  const ctx=Object.assign({g:game||{kapital:0,rep:0,risk:100,owned:{}}, profit:0, finished:false}, extra||{});
+  const ctx=Object.assign({g:game||{kapital:0,rep:0,risk:100,owned:{},stats:{},pitchStars:0,mode:'normal'}, profit:0, finished:false}, extra||{});
   const unlocked=[];
   for(const a of ACHIEVEMENTS){
-    if(!meta.ach.includes(a.id) && a.check(ctx)){ meta.ach.push(a.id); unlocked.push(a); }
+    let ok=false;
+    try{ ok=a.check(ctx); }catch(e){}
+    if(!meta.ach.includes(a.id) && ok){ meta.ach.push(a.id); unlocked.push(a); }
   }
-  if(unlocked.length){ saveMeta(); updateAchCount(); unlocked.forEach(a=>{ toast(`🏆 Erfolg freigeschaltet: ${a.name}`,'good'); }); confetti(); }
+  if(unlocked.length){ saveMeta(); updateAchCount(); unlocked.forEach(a=>toast(`🏆 Erfolg: ${a.name}`,'good')); confetti(); }
 }
-
 function renderAchievements(){
   const bonus=Math.round(prestigeStartBonus()*100);
   document.getElementById('meta-summary').innerHTML=
@@ -774,204 +1438,180 @@ function renderAchievements(){
     const got=meta.ach.includes(a.id);
     const b=document.createElement('div');
     b.className='badge'+(got?'':' locked');
-    b.innerHTML=`${got?'<span class="b-check">✅</span>':'<span class="b-check">🔒</span>'}
-      <div class="b-ico">${a.ico}</div><div class="b-name">${a.name}</div><div class="b-desc">${a.desc}</div>`;
+    b.innerHTML=`<span class="b-check">${got?'✅':'🔒'}</span><div class="b-ico">${a.ico}</div><div class="b-name">${a.name}</div><div class="b-desc">${a.desc}</div>`;
     grid.appendChild(b);
   });
   const rec=document.createElement('div');
-  rec.className='badge';
-  rec.style.gridColumn='span 2';
+  rec.className='badge'; rec.style.gridColumn='span 2';
   rec.innerHTML=`<div class="b-ico">🏅</div><div class="b-name">Persönlicher Rekord</div>
     <div class="b-desc">${meta.bestKapital?money(meta.bestKapital)+' · '+meta.bestRank:'Noch kein Rekord – spiel dein erstes Spiel zu Ende!'}</div>`;
   grid.appendChild(rec);
 }
 
 /* ============================================================
-   Shop
+   SHOP (Tabs: Investitionen + Werbung)
 ============================================================ */
+let shopTab='inv';
+function switchShopTab(t){
+  shopTab=t;
+  document.getElementById('tab-inv').classList.toggle('on',t==='inv');
+  document.getElementById('tab-ads').classList.toggle('on',t==='ads');
+  renderShop();
+}
+function invFitFor(inv){
+  const fits=INDUSTRIES[game.branche].invFit||{};
+  return fits[inv.id]!==undefined?fits[inv.id]:1.0;
+}
+function fitVerdict(fit){
+  if(fit>=1.2) return {cls:'fit-good', txt:'🤖 KI-Urteil: ✅ Passt sehr gut zu deiner Idee (+'+Math.round((fit-1)*100)+'% Wirkung)'};
+  if(fit>=0.8) return {cls:'fit-mid', txt:'🤖 KI-Urteil: 🟡 Passt ok zu deiner Firma'};
+  return {cls:'fit-bad', txt:'🤖 KI-Urteil: ⚠️ Passt kaum – Wirkung um '+Math.round((1-fit)*100)+'% reduziert'};
+}
 function renderShop(){
-  document.getElementById('shop-kapital').textContent = money(game.kapital);
+  const g=game;
+  document.getElementById('shop-kapital').textContent=money(g.kapital);
   const list=document.getElementById('shop-list');
   list.innerHTML='';
-  INVESTMENTS.forEach(inv=>{
-    const owned = game.owned[inv.id]||0;
-    const canAfford = game.kapital >= inv.price;
-    const chips=[];
-    if(inv.umsatz>0) chips.push(`<span class="chip up">📈 +${inv.umsatz} Umsatz</span>`);
-    if(inv.kosten>0) chips.push(`<span class="chip down">📉 +${inv.kosten} Kosten</span>`);
-    if(inv.kosten<0) chips.push(`<span class="chip up">📉 ${inv.kosten} Kosten</span>`);
-    if(inv.capital) chips.push(`<span class="chip up">💰 +${fmt(inv.capital)} € sofort</span>`);
-    if(inv.rep>0) chips.push(`<span class="chip rep">⭐ +${inv.rep} Ruf</span>`);
-    if(inv.rep<0) chips.push(`<span class="chip risk">⭐ ${inv.rep} Ruf</span>`);
-    if(inv.risk>0) chips.push(`<span class="chip risk">⚠️ +${inv.risk} Risiko</span>`);
-    if(inv.risk<0) chips.push(`<span class="chip up">⚠️ ${inv.risk} Risiko</span>`);
-
-    const priceTxt = inv.price===0 ? 'Gratis' : money(inv.price);
-    const card=document.createElement('div');
-    card.className='inv-card';
-    card.innerHTML=`
-      <div class="inv-head">
-        <div class="inv-ico">${inv.ico}</div>
-        <div class="inv-title">${inv.name}</div>
-        ${owned?`<span class="inv-owned">${owned}×</span>`:''}
-      </div>
-      <div class="inv-effects">${chips.join('')}</div>
-      <div class="inv-learn">💡 ${inv.learn}</div>
-      <div class="inv-buy">
-        <div class="inv-price">${priceTxt}</div>
-        <button class="btn green sm" style="width:auto;padding:12px 22px" ${canAfford?'':'disabled'} onclick="buy('${inv.id}',event)">
-          ${canAfford?'Kaufen':'Zu teuer'}
-        </button>
-      </div>`;
-    list.appendChild(card);
-  });
+  if(shopTab==='inv'){
+    document.getElementById('shop-hint').innerHTML='🤖 Die KI bewertet jede Investition für <b>deine</b> Firma. Investitionen wirken <b>ab dem nächsten Monat</b> – und Wiederholungskäufe bringen weniger.';
+    INVESTMENTS.forEach(inv=>{
+      const owned=g.owned[inv.id]||0;
+      const fit=invFitFor(inv);
+      const dim=Math.pow(0.75, owned);
+      const canAfford=g.kapital>=inv.price;
+      const v=fitVerdict(fit);
+      const effU=Math.round(inv.umsatz*fit*dim);
+      const chips=[];
+      if(inv.umsatz>0) chips.push(`<span class="chip up">📈 +${effU} Umsatz</span>`);
+      if(inv.kosten>0) chips.push(`<span class="chip down">📉 +${inv.kosten} Kosten</span>`);
+      if(inv.kosten<0) chips.push(`<span class="chip up">📉 ${inv.kosten} Kosten</span>`);
+      if(inv.capital) chips.push(`<span class="chip up">💰 +${fmt(inv.capital)} € sofort</span>`);
+      if(inv.loan) chips.push(`<span class="chip down">🏦 12× ${money(420)} Rate</span>`);
+      if(inv.rep>0) chips.push(`<span class="chip rep">⭐ +${inv.rep} Ruf</span>`);
+      if(inv.rep<0) chips.push(`<span class="chip risk">⭐ ${inv.rep} Ruf</span>`);
+      if(inv.risk>0) chips.push(`<span class="chip risk">⚠️ +${inv.risk} Risiko</span>`);
+      if(inv.risk<0) chips.push(`<span class="chip up">⚠️ ${inv.risk} Risiko</span>`);
+      const card=document.createElement('div');
+      card.className='inv-card';
+      card.innerHTML=`
+        <div class="inv-head"><div class="inv-ico">${inv.ico}</div><div class="inv-title">${inv.name}</div>${owned?`<span class="inv-owned">${owned}×</span>`:''}</div>
+        <div style="margin-top:8px"><span class="fit-chip ${v.cls}">${v.txt}</span></div>
+        <div class="inv-effects">${chips.join('')}</div>
+        <div class="inv-learn">💡 ${inv.learn}</div>
+        <div class="inv-buy">
+          <div class="inv-price">${inv.price===0?'Gratis':money(inv.price)}</div>
+          <button class="btn green sm" style="width:auto;padding:12px 22px" ${canAfford?'':'disabled'} onclick="buy('${inv.id}',event)">${canAfford?'Kaufen':'Zu teuer'}</button>
+        </div>`;
+      list.appendChild(card);
+    });
+  } else {
+    document.getElementById('shop-hint').innerHTML='📣 Kampagnen laufen <b>3 Monate</b> und kosten monatlich. Die KI schätzt, wie gut der Kanal <b>deine Zielgruppe</b> erreicht – aber Vorsicht: Wiederholung nutzt sich ab.';
+    AD_CHANNELS.forEach(ch=>{
+      const eff=channelEffectiveness(g,ch);
+      const running=g.campaigns.find(c=>c.channelId===ch.id);
+      const canAfford=g.kapital>=ch.cost;
+      let v;
+      if(eff.total>=0.55) v={cls:'fit-good', txt:'🤖 KI-Prognose: ✅ Erreicht deine Zielgruppe sehr gut'};
+      else if(eff.total>=0.3) v={cls:'fit-mid', txt:'🤖 KI-Prognose: 🟡 Erreicht deine Zielgruppe teilweise'};
+      else v={cls:'fit-bad', txt:'🤖 KI-Prognose: ⚠️ Erreicht deine Zielgruppe kaum – Geldverbrennung!'};
+      const estK=Math.round(ch.kundenBase*eff.total);
+      const card=document.createElement('div');
+      card.className='inv-card';
+      card.innerHTML=`
+        <div class="inv-head"><div class="inv-ico">${ch.ico}</div><div class="inv-title">${ch.name}</div>${(g.channelUse[ch.id]||0)?`<span class="inv-owned">${g.channelUse[ch.id]}× genutzt</span>`:''}</div>
+        ${running?`<div class="campaign-active">▶️ Läuft noch ${running.monthsLeft} Monat(e)</div>`:''}
+        <div style="margin-top:6px"><span class="fit-chip ${v.cls}">${v.txt}</span></div>
+        <div class="inv-effects">
+          <span class="chip up">👥 ~${estK} Kunden/Monat</span>
+          <span class="chip down">📉 ${money(ch.cost)}/Monat</span>
+          <span class="chip rep">⭐ +${ch.rep} Ruf</span>
+          <span class="chip">⏱️ 3 Monate</span>
+        </div>
+        <div class="inv-learn">💡 ${ch.learn}</div>
+        <div class="inv-buy">
+          <div class="inv-price">${money(ch.cost)}/Mon.</div>
+          <button class="btn green sm" style="width:auto;padding:12px 22px" ${canAfford&&!running?'':'disabled'} onclick="startCampaign('${ch.id}',event)">${running?'Aktiv':canAfford?'Starten':'Zu teuer'}</button>
+        </div>`;
+      list.appendChild(card);
+    });
+  }
 }
-
 function buy(id,ev){
+  const g=game;
   const inv=INVESTMENTS.find(i=>i.id===id);
-  if(!inv || game.kapital<inv.price) return;
-  game.kapital -= inv.price;
-  if(inv.capital) game.kapital += inv.capital;
-  game.umsatz = Math.max(0, game.umsatz + inv.umsatz);
-  game.kosten = Math.max(0, game.kosten + inv.kosten);
-  game.rep = clamp(game.rep + inv.rep, 0, 100);
-  game.risk = clamp(game.risk + inv.risk, 0, 100);
-  game.kunden += Math.round(inv.umsatz/12) + inv.rep;
-  game.owned[id]=(game.owned[id]||0)+1;
-
-  floatMoney(ev, (inv.capital? '+'+fmt(inv.capital)+' €' : '-'+money(inv.price)), inv.capital?'#4ade80':'#fde047');
-  toast(`${inv.ico} ${inv.name} gekauft!`,'good');
-  checkMissions();
-  checkAchievements();
+  if(!inv || g.kapital<inv.price) return;
+  const fit=invFitFor(inv);
+  const owned=g.owned[id]||0;
+  const dim=Math.pow(0.75, owned);
+  g.kapital-=inv.price;
+  if(inv.capital) g.kapital+=inv.capital;
+  if(inv.loan){ g.loans.push({monthsLeft:12, rate:420}); }
+  g.rep=clamp(g.rep+inv.rep,0,100);
+  g.risk=clamp(g.risk+inv.risk,0,100);
+  // Umsatz/Kosten erst nächsten Monat (pending)
+  const fl=fitVerdict(fit);
+  g.pending.push({name:`${inv.ico} ${inv.name}`, umsatz:Math.round(inv.umsatz*fit*dim), kosten:inv.kosten, fitLabel:fit>=1.2?'starke Wirkung':fit>=0.8?'normale Wirkung':'schwache Wirkung'});
+  g.owned[id]=owned+1;
+  if(fit>=1.2) g.stats.fitBuys++;
+  // Profil
+  if(fit<0.8) game.director.profile.risk++;
+  if(inv.id==='produkt'||inv.id==='service'||inv.id==='training') game.director.profile.quality++;
+  if(inv.id==='ki'||inv.id==='buchhaltung') game.director.profile.spar++;
+  floatMoney(ev, inv.capital?'+'+fmt(inv.capital)+' €':'-'+money(inv.price), inv.capital?'#4ade80':'#fde047');
+  toast(`${inv.ico} ${inv.name} gekauft – wirkt ab nächstem Monat!`,'good');
+  checkMissions(); checkAchievements();
+  renderShop(); renderDashboard();
+}
+function startCampaign(chId,ev){
+  const g=game;
+  const ch=AD_CHANNELS.find(c=>c.id===chId);
+  if(!ch || g.kapital<ch.cost || g.campaigns.find(c=>c.channelId===chId)) return;
+  const eff=channelEffectiveness(g,ch);
+  g.campaigns.push({channelId:chId, cost:ch.cost, kundenBase:ch.kundenBase, eff:eff.total, monthsLeft:3});
+  g.channelUse[chId]=(g.channelUse[chId]||0)+1;
+  g.rep=clamp(g.rep+ch.rep,0,100);
+  g.stats.campaigns++;
+  game.director.profile.marketing++;
+  floatMoney(ev,'-'+money(ch.cost),'#fde047');
+  toast(`${ch.ico} Kampagne gestartet – läuft 3 Monate!`,'good');
+  checkMissions(); checkAchievements();
   renderShop(); renderDashboard();
 }
 
 /* ============================================================
-   Next Month
-============================================================ */
-function nextMonth(){
-  if(game.over) return;
-  const startKapital = game.kapital;
-  const c = computeMonth(game);
-  game.kunden = c.kundenAfter;
-  game.kapital += c.gewinn;
-  game.profitStreak = c.gewinn>0 ? (game.profitStreak||0)+1 : 0;
-
-  // Random event
-  let event=null;
-  const roll = Math.random()*100;
-  if(roll < game.risk){
-    const loss = Math.round(game.kapital*0.08 + 300 + Math.random()*700);
-    game.kapital -= loss;
-    game.rep = clamp(game.rep-5,0,100);
-    const events=[
-      `⚠️ Ein Serverausfall kostete dich ${money(loss)}.`,
-      `⚠️ Ein wichtiger Kunde sprang ab – Verlust: ${money(loss)}.`,
-      `⚠️ Unerwartete Steuernachzahlung: ${money(loss)}.`,
-      `⚠️ Eine schlechte Presse-Story kostete ${money(loss)} & Reputation.`,
-      `⚠️ Ein Mitarbeiter kündigte spontan – Ausfall: ${money(loss)}.`,
-    ];
-    event={type:'bad', text:events[Math.floor(Math.random()*events.length)]};
-  } else if(roll > 92 && game.rep>40){
-    const bonus = Math.round(500 + Math.random()*1500);
-    game.kapital += bonus;
-    game.rep = clamp(game.rep+3,0,100);
-    const events=[
-      `🎉 Ein Testbericht lobt dich – Bonus-Umsatz: ${money(bonus)}!`,
-      `🎉 Virale Empfehlung bringt ${money(bonus)} extra!`,
-      `🎉 Ein Großkunde bestellt – zusätzliche ${money(bonus)}!`,
-    ];
-    event={type:'good', text:events[Math.floor(Math.random()*events.length)]};
-  }
-
-  // Natural decay
-  game.rep = clamp(game.rep-1,0,100);
-  game.risk = clamp(game.risk-1,0,100);
-
-  game.monat++;
-  game.level = levelFor(game.kapital);
-
-  checkAchievements({profit:c.gewinn});
-  checkMissions();
-
-  if(game.kapital<=0){ game.over=true; save(); return endGame(false); }
-  if(game.monat>MAX_MONTHS){ game.over=true; save(); return endGame(true); }
-
-  save();
-  renderReport(startKapital, c.effUmsatz, game.kosten, c.gewinn, c.newKunden, event, c.kundenBonus);
-}
-
-function renderReport(startK, umsatz, kosten, gewinn, newKunden, event, kundenBonus){
-  document.getElementById('report-month').textContent = `Monat ${game.monat-1}`;
-  const body=document.getElementById('report-body');
-  const diff = game.kapital-startK;
-  let eventHtml='';
-  if(event){ eventHtml=`<div class="event-box ${event.type==='good'?'good':''}">${event.text}</div>`; }
-  body.innerHTML=`
-    <div class="company-vis" style="margin-bottom:14px">
-      <div class="company-emoji">${diff>=0?'📈':'📉'}</div>
-      <div class="company-name">So hast du diesen Monat Geld verdient</div>
-      <div class="company-tier">${diff>=0?'Deine Firma ist gewachsen. 🎉':'Behalte die Kosten im Blick.'}</div>
-    </div>
-    <div class="report-line"><span class="k">📈 Umsatz (inkl. Kunden-Bonus)</span><span class="v pos">+${money(umsatz)}</span></div>
-    <div class="report-line"><span class="k">↳ durch ${fmt(game.kunden)} Kunden</span><span class="v pos">+${money(kundenBonus)}</span></div>
-    <div class="report-line"><span class="k">📉 Kosten</span><span class="v neg">-${money(kosten)}</span></div>
-    <div class="report-line"><span class="k">💵 Gewinn (Umsatz − Kosten)</span><span class="v ${gewinn>=0?'pos':'neg'}">${gewinn>=0?'+':''}${money(gewinn)}</span></div>
-    <div class="report-line"><span class="k">👥 Neue Kunden</span><span class="v ${newKunden>=0?'pos':'neg'}">${newKunden>=0?'+':''}${fmt(newKunden)}</span></div>
-    ${eventHtml}
-    <div class="report-line"><span class="k">💰 Kapital neu</span><span class="v">${money(game.kapital)}</span></div>
-    <div class="report-line"><span class="k">📊 Veränderung gesamt</span><span class="v ${diff>=0?'pos':'neg'}">${diff>=0?'+':''}${money(diff)}</span></div>
-    <div style="height:20px"></div>
-    <button class="btn green" onclick="afterReport()">✅ Weiter</button>`;
-  showView('report');
-  if(diff<0) body.querySelector('.company-vis').classList.add('shake');
-}
-function afterReport(){
-  showView('dashboard'); renderDashboard();
-  const t=tierFor(game.kapital);
-  if(game._lastTier!==t.name){
-    game._lastTier=t.name;
-    if(t.min>0){ toast(`${t.emoji} Aufstieg: ${t.name}!`,'good'); confetti(); }
-    save();
-  }
-}
-
-/* ============================================================
-   End game
+   ENDGAME
 ============================================================ */
 function rankFor(k, finished){
   if(!finished) return {emoji:'💥', title:'Insolvenz!', rank:'Gescheitert – aber schlauer 💪'};
-  if(k>=150000) return {emoji:'🦄', title:'UNICORN!', rank:'Legendär 🌟'};
-  if(k>=80000)  return {emoji:'🏙️', title:'Marktführer!', rank:'Hervorragend 🏆'};
-  if(k>=45000)  return {emoji:'🏬', title:'Etablierte Firma!', rank:'Sehr gut ⭐'};
-  if(k>=20000)  return {emoji:'🏢', title:'Solides Unternehmen', rank:'Gut 👍'};
+  if(k>=200000) return {emoji:'🦄', title:'UNICORN!', rank:'Legendär 🌟'};
+  if(k>=100000) return {emoji:'🏙️', title:'Marktführer!', rank:'Hervorragend 🏆'};
+  if(k>=55000)  return {emoji:'🏬', title:'Etablierte Firma!', rank:'Sehr gut ⭐'};
+  if(k>=25000)  return {emoji:'🏢', title:'Solides Unternehmen', rank:'Gut 👍'};
   return {emoji:'🏪', title:'Kleine Firma', rank:'Ausbaufähig 📈'};
 }
 function awardPrestige(finished){
-  let stars = Math.max(0, levelFor(game.kapital)-1);
-  if(finished) stars += 1;
-  stars += Math.floor(game.battleWins/2);
+  let stars=Math.max(0, levelFor(game.kapital)-1);
+  if(finished) stars+=1;
+  stars+=Math.floor(game.battleWins/2);
+  if(game.mode==='hardcore') stars*=2;
   return stars;
 }
 function endGame(finished){
-  const info = rankFor(game.kapital, finished);
-  const isRecord = game.kapital>meta.bestKapital;
+  const info=rankFor(game.kapital, finished);
+  const isRecord=game.kapital>meta.bestKapital;
   if(isRecord){ meta.bestKapital=game.kapital; meta.bestRank=info.rank; }
-  const stars = awardPrestige(finished);
-  meta.prestige += stars;
-  meta.runs += 1;
+  const stars=awardPrestige(finished);
+  meta.prestige+=stars; meta.runs+=1;
   saveMeta();
   checkAchievements({finished, profit:0});
   const bonusNext=Math.round(prestigeStartBonus()*100);
-
-  const msg = finished
-    ? `Du hast 24 Monate überstanden und ${money(game.kapital)} Kapital aufgebaut!`
-    : 'Dein Kapital ist aufgebraucht. Aber jeder Gründer scheitert mal – versuch es erneut!';
-
+  const msg=finished
+    ? `${game.firma} hat 36 Monate überstanden und ${money(game.kapital)} aufgebaut!`
+    : `${game.firma} ist zahlungsunfähig. ${game.mode==='hardcore'?'Hardcore eben. ':''}Jeder Gründer scheitert mal – deine Erfahrung (und dein Prestige) nimmst du mit!`;
   modal(`<div class="big-emoji">${info.emoji}</div><h2>${info.title}</h2>
     <div class="rank-line">
-      <b>Rang: ${info.rank}</b><br>
-      💰 Endkapital: ${money(game.kapital)}${isRecord?' &nbsp;🏅 <b>Neuer Rekord!</b>':''}<br>
+      <b>Rang: ${info.rank}</b>${game.mode==='hardcore'?' · 💀 Hardcore':''}<br>
+      💰 Endkapital: ${money(Math.max(0,game.kapital))}${isRecord?' &nbsp;🏅 <b>Neuer Rekord!</b>':''}<br>
       ⭐ Reputation: ${Math.round(game.rep)} · ⚔️ Battle-Siege: ${game.battleWins}<br>
       🌟 Prestige verdient: <b>+${stars}</b> (gesamt ${meta.prestige})<br>
       🚀 Nächster Start-Bonus: <b>+${bonusNext}%</b> Kapital
@@ -979,33 +1619,31 @@ function endGame(finished){
     <p>${msg}</p>
     <button class="btn" onclick="closeModal();showStart()">🏁 Zum Startbildschirm</button>
     <div style="height:10px"></div>
-    <button class="btn green" onclick="closeModal();newGame()">🔄 Sofort neu starten</button>`);
-  if(isRecord || finished) confetti();
+    <button class="btn green" onclick="closeModal();openPitch()">🎤 Neue Idee pitchen</button>`);
+  if(isRecord||finished) confetti();
 }
 
 /* ============================================================
-   BATTLE MODE (League)
+   BATTLE (gegen den Run-Rivalen)
 ============================================================ */
 function openBattle(){
-  if(!game){ return; }
-  const rivalRank = Math.max(1, meta.leagueRank-1);
-  const ai = AI_NAMES[(rivalRank-1) % AI_NAMES.length];
-  battle={ round:1, meScore:0, aiScore:0, aiName:ai[0], aiEmoji:ai[1], rivalRank, results:[], done:false };
-  document.getElementById('bt-ai-name').textContent = ai[0];
-  document.getElementById('bt-ai-emoji').textContent = ai[1];
-  document.getElementById('bt-me-name').textContent = game.firma;
+  if(!game) return;
+  battle={ round:1, meScore:0, aiScore:0, results:[], done:false };
+  document.getElementById('bt-ai-name').textContent=game.rival.name;
+  document.getElementById('bt-ai-emoji').textContent=game.rival.ico;
+  document.getElementById('bt-me-name').textContent=game.firma;
   document.getElementById('bt-log').innerHTML='';
   renderBattle();
   showView('battle'); showNav(true);
 }
 function renderBattle(){
-  document.getElementById('battle-round').textContent = `Runde ${Math.min(battle.round,5)}/5`;
-  document.getElementById('bt-me-score').textContent = battle.meScore;
-  document.getElementById('bt-ai-score').textContent = battle.aiScore;
-  const champ = meta.leagueRank<=1;
-  document.getElementById('bt-league').textContent = champ
-    ? `👑 Du bist Liga-Champion (#1) – verteidige deinen Titel gegen Rang #${battle.rivalRank}!`
-    : `🏆 Liga-Rang #${meta.leagueRank} · Sieg = Aufstieg auf #${battle.rivalRank}`;
+  document.getElementById('battle-round').textContent=`Runde ${Math.min(battle.round,5)}/5`;
+  document.getElementById('bt-me-score').textContent=battle.meScore;
+  document.getElementById('bt-ai-score').textContent=battle.aiScore;
+  document.getElementById('bt-league').textContent=
+    meta.leagueRank<=1
+      ? `👑 Liga-Champion! Verteidige deinen Titel gegen ${game.rival.name} (Stärke ${game.rival.staerke}/10)`
+      : `🏆 Liga-Rang #${meta.leagueRank} · Sieg schwächt ${game.rival.name} & bringt Aufstieg`;
   const dots=document.getElementById('bt-dots');
   dots.innerHTML='';
   for(let i=0;i<5;i++){
@@ -1030,55 +1668,52 @@ function renderBattle(){
     strats.appendChild(b);
   });
 }
-function scoreStrat(s){
-  return Math.round(s.share*1.0 + s.profit*1.2 + s.rep*0.8 - Math.max(0,s.risk)*0.5 + 15);
-}
+function scoreStrat(s){ return Math.round(s.share*1.0+s.profit*1.2+s.rep*0.8-Math.max(0,s.risk)*0.5+15); }
 function playBattleRound(myStrat){
   if(battle.done) return;
-  const aiStrat = STRATS[Math.floor(Math.random()*STRATS.length)];
-  const repBonus = Math.round((game.rep-40)/10);
-  const rivalStrength = (6 - battle.rivalRank); // Rang1 -> 5 (stark), Rang6 -> 0
-
-  const myPts = scoreStrat(myStrat) + repBonus + Math.floor(Math.random()*5);
-  const aiPts = scoreStrat(aiStrat) + rivalStrength + Math.floor(Math.random()*6);
-
-  let result, resTxt, resClass;
+  const aiStrat=rnd(STRATS);
+  const repBonus=Math.round((game.rep-40)/10);
+  const myPts=scoreStrat(myStrat)+repBonus+Math.floor(Math.random()*5);
+  const aiPts=scoreStrat(aiStrat)+game.rival.staerke+Math.floor(Math.random()*5);
+  let result,resTxt,resClass;
   if(myPts>aiPts){ battle.meScore++; result='win'; resTxt='✅ Runde gewonnen!'; resClass='pos'; }
   else if(myPts<aiPts){ battle.aiScore++; result='lose'; resTxt='❌ Runde verloren'; resClass='neg'; }
   else { result='tie'; resTxt='🤝 Unentschieden'; resClass=''; }
   battle.results.push(result);
-
   const line=document.createElement('div');
   line.className='lr';
-  line.innerHTML=`<b>Runde ${battle.round}:</b> Du ${myStrat.ico} <b>${myStrat.name}</b> (${myPts}) vs. ${battle.aiEmoji} ${aiStrat.name} (${aiPts}) → <span class="${resClass}"><b>${resTxt}</b></span>`;
+  line.innerHTML=`<b>Runde ${battle.round}:</b> Du ${myStrat.ico} <b>${myStrat.name}</b> (${myPts}) vs. ${game.rival.ico} ${aiStrat.name} (${aiPts}) → <span class="${resClass}"><b>${resTxt}</b></span>`;
   document.getElementById('bt-log').prepend(line);
-
   battle.round++;
   if(battle.round>5){ finishBattle(); return; }
   renderBattle();
 }
 function finishBattle(){
   battle.done=true;
-  let title, emoji, reward=0, promoted=false;
+  let title,emoji,reward=0,promoted=false;
   if(battle.meScore>battle.aiScore){
-    title='Du gewinnst das Battle!'; emoji='🏆'; reward=1500;
+    title='Du gewinnst das Battle!'; emoji='🏆'; reward=1200;
     game.battleWins++; meta.totalBattleWins++;
-    game.kapital+=reward; game.rep=clamp(game.rep+6,0,100);
+    game.kapital+=reward; game.rep=clamp(game.rep+5,0,100);
+    game.rival.staerke=Math.max(1, game.rival.staerke-2);
     if(meta.leagueRank>1){ meta.leagueRank--; meta.rivalsBeaten++; promoted=true; }
+    pushNews(`📰 ${game.firma} gewinnt das Battle gegen ${game.rival.name} – der Rivale ist geschwächt!`);
   } else if(battle.meScore<battle.aiScore){
-    title='Die KI-Firma gewinnt'; emoji='😤';
-    game.rep=clamp(game.rep-3,0,100);
+    title=`${game.rival.name} gewinnt`; emoji='😤';
+    game.rep=clamp(game.rep-4,0,100);
+    game.rival.staerke=Math.min(10, game.rival.staerke+1);
+    pushNews(`📰 ${game.rival.name} demütigt ${game.firma} im Battle.`);
   } else {
-    title='Unentschieden!'; emoji='🤝'; reward=500; game.kapital+=reward;
+    title='Unentschieden!'; emoji='🤝'; reward=400; game.kapital+=reward;
   }
   saveMeta(); save();
   checkMissions(); checkAchievements(); updateAchCount();
   renderBattle();
-
-  const promoTxt = promoted ? `<br>🏆 <b>Aufstieg!</b> Du bist jetzt Liga-Rang #${meta.leagueRank}.` : '';
+  const promoTxt=promoted?`<br>🏆 <b>Aufstieg!</b> Liga-Rang #${meta.leagueRank}.`:'';
+  const weakTxt=battle.meScore>battle.aiScore?`<br>💥 ${game.rival.name} ist geschwächt (Stärke ${game.rival.staerke}/10).`:'';
   modal(`<div class="big-emoji">${emoji}</div><h2>${title}</h2>
-    <div class="rank-line">Endstand: <b>${battle.meScore} : ${battle.aiScore}</b> gegen ${battle.aiName}${reward?`<br>💰 Belohnung: +${money(reward)}`:''}${promoTxt}</div>
-    <p>${battle.meScore>battle.aiScore?'Stark! Dein Sieg bringt Kapital und Reputation.':battle.meScore<battle.aiScore?'Knapp verloren – analysiere die Strategien und versuch es erneut!':'Ausgeglichen – beim nächsten Mal holst du den Sieg!'}</p>
+    <div class="rank-line">Endstand: <b>${battle.meScore} : ${battle.aiScore}</b>${reward?`<br>💰 Belohnung: +${money(reward)}`:''}${promoTxt}${weakTxt}</div>
+    <p>${battle.meScore>battle.aiScore?'Dein Sieg wirkt auch im Hauptspiel: Der Rivale setzt dich weniger unter Druck!':battle.meScore<battle.aiScore?'Dein Rivale geht gestärkt hervor – pass im Hauptspiel auf!':'Ausgeglichen – beim nächsten Mal holst du den Sieg!'}</p>
     <button class="btn green" onclick="closeModal();exitBattle()">🏠 Zum Dashboard</button>
     <div style="height:10px"></div>
     <button class="btn ghost" onclick="closeModal();openBattle()">🔁 Nochmal</button>`);
@@ -1095,14 +1730,14 @@ function toast(msg,type){
   t.className='toast '+(type||'');
   t.textContent=msg;
   layer.appendChild(t);
-  setTimeout(()=>{ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, 1900);
+  setTimeout(()=>{ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); },1900);
 }
 function floatMoney(ev,txt,color){
   if(!ev) return;
   const el=document.createElement('div');
   el.className='float-money'; el.textContent=txt; el.style.color=color||'#fde047';
-  const x=ev.clientX||window.innerWidth/2, y=ev.clientY||window.innerHeight/2;
-  el.style.left=(x-20)+'px'; el.style.top=(y-20)+'px';
+  el.style.left=((ev.clientX||window.innerWidth/2)-20)+'px';
+  el.style.top=((ev.clientY||window.innerHeight/2)-20)+'px';
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),1000);
 }
@@ -1110,8 +1745,7 @@ function confetti(){
   const set=['🎉','✨','💰','⭐','🚀','🎊'];
   for(let i=0;i<26;i++){
     const s=document.createElement('div');
-    s.className='confetti';
-    s.textContent=set[i%set.length];
+    s.className='confetti'; s.textContent=set[i%set.length];
     s.style.left=(Math.random()*100)+'%';
     s.style.animationDelay=(Math.random()*0.5)+'s';
     s.style.fontSize=(16+Math.random()*18)+'px';
@@ -1123,21 +1757,13 @@ function modal(html){ document.getElementById('modal').innerHTML=html; document.
 function closeModal(){ document.getElementById('overlay').classList.remove('show'); }
 
 /* ============================================================
-   Boot
+   BOOT
 ============================================================ */
 (function boot(){
-  meta = loadMeta() || defaultMeta();
-  // ensure new meta fields exist for older saves
-  meta = Object.assign(defaultMeta(), meta);
+  meta=Object.assign(defaultMeta(), loadMeta()||{});
   saveMeta();
-  game = load();
-  if(game){
-    // backfill fields for older run saves
-    if(game.profitStreak===undefined) game.profitStreak=0;
-    if(!game.missions) game.missions=MISSIONS.slice(0,3).map(m=>m.id);
-    if(!game.missionsDone) game.missionsDone=[];
-    if(!game._lastTier) game._lastTier=tierFor(game.kapital).name;
-  }
+  game=load();
+  if(game && !game.rival){ game=null; localStorage.removeItem(SAVE_KEY); } // Schutz vor alten Saves
   showStart();
 })();
 </script>
